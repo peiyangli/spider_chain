@@ -1,0 +1,13 @@
+syntax = "proto3";
+package spider.official.v1;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+
+option go_package = "spider/x/official/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (amino.name) = "spider/x/official/Params";
+  option (gogoproto.equal) = true;
+}
