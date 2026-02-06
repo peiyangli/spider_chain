@@ -1,0 +1,14 @@
+syntax = "proto3";
+package spider.official.v1;
+
+option go_package = "spider/x/official/types";
+
+// Operator defines the Operator message.
+message Operator {
+  string address = 1;
+  string module = 2;
+  string name = 3;
+  uint64 role = 4;
+  uint64 permissions = 5;
+  string creator = 6;
+}

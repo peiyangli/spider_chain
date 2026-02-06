@@ -1,10 +1,12 @@
 syntax = "proto3";
+
 package spider.official.v1;
 
 import "amino/amino.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
+import "spider/official/v1/operator.proto";
 import "spider/official/v1/params.proto";
 
 option go_package = "spider/x/official/types";
@@ -14,6 +16,16 @@ service Query {
   // Parameters queries the parameters of the module.
   rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/spider/official/v1/params";
+  }
+
+  // ListOperator Queries a list of Operator items.
+  rpc GetOperator(QueryGetOperatorRequest) returns (QueryGetOperatorResponse) {
+    option (google.api.http).get = "/spider/official/v1/operator/{address}";
+  }
+
+  // ListOperator defines the ListOperator RPC.
+  rpc ListOperator(QueryAllOperatorRequest) returns (QueryAllOperatorResponse) {
+    option (google.api.http).get = "/spider/official/v1/operator";
   }
 }
 
@@ -27,4 +39,25 @@ message QueryParamsResponse {
     (gogoproto.nullable) = false,
     (amino.dont_omitempty) = true
   ];
+}
+
+// QueryGetOperatorRequest defines the QueryGetOperatorRequest message.
+message QueryGetOperatorRequest {
+  string address = 1;
+}
+
+// QueryGetOperatorResponse defines the QueryGetOperatorResponse message.
+message QueryGetOperatorResponse {
+  repeated Operator operator = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryAllOperatorRequest defines the QueryAllOperatorRequest message.
+message QueryAllOperatorRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+// QueryAllOperatorResponse defines the QueryAllOperatorResponse message.
+message QueryAllOperatorResponse {
+  repeated Operator operator = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }

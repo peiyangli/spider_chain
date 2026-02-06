@@ -1,8 +1,10 @@
 syntax = "proto3";
+
 package spider.official.v1;
 
 import "amino/amino.proto";
 import "gogoproto/gogo.proto";
+import "spider/official/v1/operator.proto";
 import "spider/official/v1/params.proto";
 
 option go_package = "spider/x/official/types";
@@ -14,4 +16,5 @@ message GenesisState {
     (gogoproto.nullable) = false,
     (amino.dont_omitempty) = true
   ];
+  repeated Operator operator_map = 2 [(gogoproto.nullable) = false];
 }

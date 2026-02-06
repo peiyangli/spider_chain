@@ -21,8 +21,21 @@ func TestGenesisState_Validate(t *testing.T) {
 		},
 		{
 			desc:     "valid genesis state",
-			genState: &types.GenesisState{},
+			genState: &types.GenesisState{OperatorMap: []types.Operator{{Address: "0"}, {Address: "1"}}},
 			valid:    true,
+		}, {
+			desc: "duplicated operator",
+			genState: &types.GenesisState{
+				OperatorMap: []types.Operator{
+					{
+						Address: "0",
+					},
+					{
+						Address: "0",
+					},
+				},
+			},
+			valid: false,
 		},
 	}
 	for _, tc := range tests {
