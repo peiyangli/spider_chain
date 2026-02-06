@@ -1,27 +1,37 @@
 version: 1
 validation: sovereign
-default_denom: stake
+default_denom: usc
 accounts: 
 - name: alice
   coins:
-  - 20000token
-  - 200000000stake
+    - 100000000000usc
 - name: bob
   coins:
-  - 10000token
-  - 100000000stake
+    - 50000000000usc
 client:
   openapi:
     path: docs/static/openapi.json
 faucet:
   name: bob
   coins:
-  - 5token
-  - 100000stake
+    - 5usc
 validators:
-- name: alice
-  bonded: 100000000stake
-- name: validator1
-  bonded: 200000000stake
-- name: validator2
-  bonded: 100000000stake
+  - name: alice
+    bonded: 10000000000usc
+genesis:
+  app_state:
+    staking:
+      params:
+        bond_denom: usc
+    crisis:
+      constant_fee:
+        denom: usc
+        amount: "1000"
+    gov:
+      params:
+        min_deposit:
+          - denom: usc
+            amount: "10000000"
+    mint:
+      params:
+        mint_denom: usc
