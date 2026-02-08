@@ -2,6 +2,7 @@ package types
 
 import (
 	"context"
+	"spider/x/official/types"
 
 	"cosmossdk.io/core/address"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -9,6 +10,7 @@ import (
 
 type OfficialKeeper interface {
 	// TODO Add methods imported from official should be defined here
+	GetOperator(ctx context.Context, address, module string) (types.OperatorI, error)
 }
 
 // AuthKeeper defines the expected interface for the Auth module.
