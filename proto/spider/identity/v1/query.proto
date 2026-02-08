@@ -1,10 +1,12 @@
 syntax = "proto3";
+
 package spider.identity.v1;
 
 import "amino/amino.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
+import "spider/identity/v1/identity.proto";
 import "spider/identity/v1/params.proto";
 
 option go_package = "spider/x/identity/types";
@@ -14,6 +16,16 @@ service Query {
   // Parameters queries the parameters of the module.
   rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/spider/identity/v1/params";
+  }
+
+  // ListIdentity Queries a list of Identity items.
+  rpc GetIdentity(QueryGetIdentityRequest) returns (QueryGetIdentityResponse) {
+    option (google.api.http).get = "/spider/identity/v1/identity/{uid}";
+  }
+
+  // ListIdentity defines the ListIdentity RPC.
+  rpc ListIdentity(QueryAllIdentityRequest) returns (QueryAllIdentityResponse) {
+    option (google.api.http).get = "/spider/identity/v1/identity";
   }
 }
 
@@ -27,4 +39,25 @@ message QueryParamsResponse {
     (gogoproto.nullable) = false,
     (amino.dont_omitempty) = true
   ];
+}
+
+// QueryGetIdentityRequest defines the QueryGetIdentityRequest message.
+message QueryGetIdentityRequest {
+  string uid = 1;
+}
+
+// QueryGetIdentityResponse defines the QueryGetIdentityResponse message.
+message QueryGetIdentityResponse {
+  Identity identity = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryAllIdentityRequest defines the QueryAllIdentityRequest message.
+message QueryAllIdentityRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+// QueryAllIdentityResponse defines the QueryAllIdentityResponse message.
+message QueryAllIdentityResponse {
+  repeated Identity identity = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }

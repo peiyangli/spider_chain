@@ -1,8 +1,10 @@
 syntax = "proto3";
+
 package spider.identity.v1;
 
 import "amino/amino.proto";
 import "gogoproto/gogo.proto";
+import "spider/identity/v1/identity.proto";
 import "spider/identity/v1/params.proto";
 
 option go_package = "spider/x/identity/types";
@@ -14,4 +16,5 @@ message GenesisState {
     (gogoproto.nullable) = false,
     (amino.dont_omitempty) = true
   ];
+  repeated Identity identity_map = 2 [(gogoproto.nullable) = false];
 }

@@ -23,6 +23,7 @@ type Keeper struct {
 	Params collections.Item[types.Params]
 
 	officialKeeper types.OfficialKeeper
+	Identity       collections.Map[string, types.Identity]
 }
 
 func NewKeeper(
@@ -47,7 +48,7 @@ func NewKeeper(
 
 		officialKeeper: officialKeeper,
 		Params:         collections.NewItem(sb, types.ParamsKey, "params", codec.CollValue[types.Params](cdc)),
-	}
+		Identity:       collections.NewMap(sb, types.IdentityKey, "identity", collections.StringKey, codec.CollValue[types.Identity](cdc))}
 
 	schema, err := sb.Build()
 	if err != nil {

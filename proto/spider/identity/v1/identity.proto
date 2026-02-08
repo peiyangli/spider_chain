@@ -1,0 +1,13 @@
+syntax = "proto3";
+package spider.identity.v1;
+
+option go_package = "spider/x/identity/types";
+
+// Identity defines the Identity message.
+message Identity {
+  string uid = 1;
+  string owner = 2;
+  bytes idkey = 3;
+  bytes msgkey = 4;
+  string creator = 5;
+}
