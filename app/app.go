@@ -46,6 +46,7 @@ import (
 	ibckeeper "github.com/cosmos/ibc-go/v10/modules/core/keeper"
 
 	"spider/docs"
+	identitymodulekeeper "spider/x/identity/keeper"
 	officialmodulekeeper "spider/x/official/keeper"
 )
 
@@ -101,6 +102,7 @@ type App struct {
 	// simulation manager
 	sm             *module.SimulationManager
 	OfficialKeeper officialmodulekeeper.Keeper
+	IdentityKeeper identitymodulekeeper.Keeper
 }
 
 func init() {
@@ -181,6 +183,7 @@ func New(
 		&app.CircuitBreakerKeeper,
 		&app.ParamsKeeper,
 		&app.OfficialKeeper,
+		&app.IdentityKeeper,
 	); err != nil {
 		panic(err)
 	}

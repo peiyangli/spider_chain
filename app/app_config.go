@@ -1,6 +1,8 @@
 package app
 
 import (
+	_ "spider/x/identity/module"
+	identitymoduletypes "spider/x/identity/types"
 	_ "spider/x/official/module"
 	officialmoduletypes "spider/x/official/types"
 	"time"
@@ -126,6 +128,7 @@ var (
 						ibcexported.ModuleName,
 						// chain modules
 						officialmoduletypes.ModuleName,
+						identitymoduletypes.ModuleName,
 						// this line is used by starport scaffolding # stargate/app/beginBlockers
 					},
 					EndBlockers: []string{
@@ -135,6 +138,7 @@ var (
 						group.ModuleName,
 						// chain modules
 						officialmoduletypes.ModuleName,
+						identitymoduletypes.ModuleName,
 						// this line is used by starport scaffolding # stargate/app/endBlockers
 					},
 					// The following is mostly only needed when ModuleName != StoreKey name.
@@ -172,6 +176,7 @@ var (
 						icatypes.ModuleName,
 						// chain modules
 						officialmoduletypes.ModuleName,
+						identitymoduletypes.ModuleName,
 						// this line is used by starport scaffolding # stargate/app/initGenesis
 					},
 				}),
@@ -271,6 +276,10 @@ var (
 			{
 				Name:   officialmoduletypes.ModuleName,
 				Config: appconfig.WrapAny(&officialmoduletypes.Module{}),
+			},
+			{
+				Name:   identitymoduletypes.ModuleName,
+				Config: appconfig.WrapAny(&identitymoduletypes.Module{}),
 			},
 			// this line is used by starport scaffolding # stargate/app/moduleConfig
 		},
