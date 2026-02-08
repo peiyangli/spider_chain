@@ -1,6 +1,7 @@
 package keeper
 
 import (
+	"context"
 	"fmt"
 
 	"cosmossdk.io/collections"
@@ -58,4 +59,13 @@ func NewKeeper(
 // GetAuthority returns the module's authority.
 func (k Keeper) GetAuthority() []byte {
 	return k.authority
+}
+
+func (k Keeper) GetOperator(ctx context.Context, address, module string) (types.OperatorI, error) {
+	var key = collections.Join(address, module)
+	operator, err := k.Operator.Get(ctx, key)
+	if err != nil {
+		return nil, err
+	}
+	return &operator, nil
 }
