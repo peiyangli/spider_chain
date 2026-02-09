@@ -42,9 +42,9 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 				},
 				{
 					RpcMethod:      "CreateDenom",
-					Use:            "create-denom [denom] [description] [ticker] [precision] [url] [max-supply] [can-change-max-supply]",
+					Use:            "create-denom [denom] [description] [ticker] [precision] [url] [max-supply] [can-change-max-supply] [creation-fee]",
 					Short:          "Create a new denom",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "denom"}, {ProtoField: "description"}, {ProtoField: "ticker"}, {ProtoField: "precision"}, {ProtoField: "url"}, {ProtoField: "max_supply"}, {ProtoField: "can_change_max_supply"}},
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "denom"}, {ProtoField: "description"}, {ProtoField: "ticker"}, {ProtoField: "precision"}, {ProtoField: "url"}, {ProtoField: "max_supply"}, {ProtoField: "can_change_max_supply"}, {ProtoField: "creation_fee"}},
 				},
 				{
 					RpcMethod:      "UpdateDenom",

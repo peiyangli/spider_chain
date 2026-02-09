@@ -38,3 +38,8 @@ genesis:
     official:
       operator_map:
         - {address: spider1gnx609p4e8p3snwm54f204pnncmy99ltm2w3wr}
+    tokenfactory:
+      params:
+        creation_fee:
+          denom: usc
+          amount: "100"

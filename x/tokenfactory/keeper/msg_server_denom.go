@@ -10,6 +10,7 @@ import (
 
 	"cosmossdk.io/collections"
 	errorsmod "cosmossdk.io/errors"
+	"cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
@@ -19,16 +20,29 @@ const (
 )
 
 func (k msgServer) CreateDenom(ctx context.Context, msg *types.MsgCreateDenom) (*types.MsgCreateDenomResponse, error) {
-	if _, err := k.addressCodec.StringToBytes(msg.Owner); err != nil {
+	creatorAddr, err := k.addressCodec.StringToBytes(msg.Owner)
+	if err != nil {
 		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidAddress, fmt.Sprintf("invalid address: %s", err))
 	}
+	//to lower
 	msg.Denom = strings.ToLower(msg.Denom)
-	// protectedDenoms := []string{"stake", "token", sdk.DefaultBondDenom}
-	if !strings.HasPrefix(msg.Denom, "/") {
+
+	if msg.Denom == sdk.DefaultBondDenom {
+		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, fmt.Sprintf("no bond-denom:  %s", sdk.DefaultBondDenom))
+	}
+
+	//check coin type
+	var coin = sdk.Coin{
+		Denom:  msg.Denom,
+		Amount: math.NewInt(1),
+	}
+	err = coin.Validate()
+	if err != nil {
+		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidAddress, fmt.Sprintf("not a coin type: %s", err))
+	}
+
+	if !strings.HasPrefix(msg.Denom, "tf/") {
 		// 顶级 denom 需要治理权限
-		if msg.Denom == sdk.DefaultBondDenom {
-			return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "no bond-denom: "+sdk.DefaultBondDenom)
-		}
 		govAddr := k.authKeeper.GetModuleAddress(types.GovModuleName)
 		if msg.Owner != govAddr.String() {
 			//only operator can create uid->pub
@@ -41,6 +55,26 @@ func (k msgServer) CreateDenom(ctx context.Context, msg *types.MsgCreateDenom) (
 			}
 		}
 	}
+
+	//check params
+	params, err := k.Params.Get(ctx)
+	if err != nil {
+		return nil, errorsmod.Wrap(sdkerrors.ErrLogic, err.Error())
+	}
+	if params.CreationFee.IsPositive() {
+		var fees = []sdk.Coin{params.CreationFee}
+		if msg.CreationFee.IsLT(params.CreationFee) {
+			return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, fmt.Sprintf("need creation-fee: %v", params.CreationFee))
+		}
+		if err := k.bankKeeper.SendCoinsFromAccountToModule(ctx, creatorAddr, types.ModuleName, fees); err != nil {
+			return nil, errorsmod.Wrap(err, "failed to pay")
+		}
+		// Burn the coins
+		if err := k.bankKeeper.BurnCoins(ctx, types.ModuleName, fees); err != nil {
+			return nil, errorsmod.Wrap(err, "failed to burn coins")
+		}
+	}
+
 	// Check if the value already exists
 	ok, err := k.Denom.Has(ctx, msg.Denom)
 	if err != nil {
