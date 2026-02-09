@@ -5,6 +5,8 @@ import (
 	identitymoduletypes "spider/x/identity/types"
 	_ "spider/x/official/module"
 	officialmoduletypes "spider/x/official/types"
+	_ "spider/x/tokenfactory/module"
+	tokenfactorymoduletypes "spider/x/tokenfactory/types"
 	"time"
 
 	runtimev1alpha1 "cosmossdk.io/api/cosmos/app/runtime/v1alpha1"
@@ -85,7 +87,7 @@ var (
 		{Account: nft.ModuleName},
 		{Account: ibctransfertypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner}},
 		{Account: icatypes.ModuleName},
-	}
+		{Account: tokenfactorymoduletypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner, authtypes.Staking}}}
 
 	// blocked account addresses
 	blockAccAddrs = []string{
@@ -129,6 +131,7 @@ var (
 						// chain modules
 						officialmoduletypes.ModuleName,
 						identitymoduletypes.ModuleName,
+						tokenfactorymoduletypes.ModuleName,
 						// this line is used by starport scaffolding # stargate/app/beginBlockers
 					},
 					EndBlockers: []string{
@@ -139,6 +142,7 @@ var (
 						// chain modules
 						officialmoduletypes.ModuleName,
 						identitymoduletypes.ModuleName,
+						tokenfactorymoduletypes.ModuleName,
 						// this line is used by starport scaffolding # stargate/app/endBlockers
 					},
 					// The following is mostly only needed when ModuleName != StoreKey name.
@@ -177,6 +181,7 @@ var (
 						// chain modules
 						officialmoduletypes.ModuleName,
 						identitymoduletypes.ModuleName,
+						tokenfactorymoduletypes.ModuleName,
 						// this line is used by starport scaffolding # stargate/app/initGenesis
 					},
 				}),
@@ -280,6 +285,10 @@ var (
 			{
 				Name:   identitymoduletypes.ModuleName,
 				Config: appconfig.WrapAny(&identitymoduletypes.Module{}),
+			},
+			{
+				Name:   tokenfactorymoduletypes.ModuleName,
+				Config: appconfig.WrapAny(&tokenfactorymoduletypes.Module{}),
 			},
 			// this line is used by starport scaffolding # stargate/app/moduleConfig
 		},

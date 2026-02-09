@@ -48,6 +48,7 @@ import (
 	"spider/docs"
 	identitymodulekeeper "spider/x/identity/keeper"
 	officialmodulekeeper "spider/x/official/keeper"
+	tokenfactorymodulekeeper "spider/x/tokenfactory/keeper"
 )
 
 const (
@@ -100,9 +101,10 @@ type App struct {
 	TransferKeeper      ibctransferkeeper.Keeper
 
 	// simulation manager
-	sm             *module.SimulationManager
-	OfficialKeeper officialmodulekeeper.Keeper
-	IdentityKeeper identitymodulekeeper.Keeper
+	sm                 *module.SimulationManager
+	OfficialKeeper     officialmodulekeeper.Keeper
+	IdentityKeeper     identitymodulekeeper.Keeper
+	TokenfactoryKeeper tokenfactorymodulekeeper.Keeper
 }
 
 func init() {
@@ -184,6 +186,7 @@ func New(
 		&app.ParamsKeeper,
 		&app.OfficialKeeper,
 		&app.IdentityKeeper,
+		&app.TokenfactoryKeeper,
 	); err != nil {
 		panic(err)
 	}
