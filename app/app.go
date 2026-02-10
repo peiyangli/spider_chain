@@ -9,6 +9,7 @@ import (
 	"cosmossdk.io/log"
 	storetypes "cosmossdk.io/store/types"
 	circuitkeeper "cosmossdk.io/x/circuit/keeper"
+	nftkeeper "cosmossdk.io/x/nft/keeper"
 	upgradekeeper "cosmossdk.io/x/upgrade/keeper"
 
 	abci "github.com/cometbft/cometbft/abci/types"
@@ -83,6 +84,7 @@ type App struct {
 	// the list of all modules is available in the app_config
 	AuthKeeper            authkeeper.AccountKeeper
 	BankKeeper            bankkeeper.Keeper
+	NftKeeper             nftkeeper.Keeper
 	StakingKeeper         *stakingkeeper.Keeper
 	SlashingKeeper        slashingkeeper.Keeper
 	MintKeeper            mintkeeper.Keeper
@@ -174,6 +176,7 @@ func New(
 		&app.interfaceRegistry,
 		&app.AuthKeeper,
 		&app.BankKeeper,
+		&app.NftKeeper,
 		&app.StakingKeeper,
 		&app.SlashingKeeper,
 		&app.MintKeeper,
