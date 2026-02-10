@@ -1,0 +1,23 @@
+syntax = "proto3";
+package spider.loan.v1;
+
+import "cosmos_proto/cosmos.proto";
+
+option go_package = "spider/x/loan/types";
+
+// Loan defines the Loan message.
+message Loan {
+  string borrower = 1;
+  uint64 status = 2;
+  uint64 seq = 3;
+  uint64 deadline = 4;
+  uint64 public_liquidation_delay = 5;
+  string public_liquidation_reward = 6; //coins
+  string amount = 7; //coins
+  string fee = 8; //coins
+  string lender = 9;
+  string collateral_type = 10;
+  string collateral_coin = 11; //coins
+  string collateral_nft_class = 12;
+  string collateral_nft_id = 13;
+}

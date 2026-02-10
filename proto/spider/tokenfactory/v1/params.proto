@@ -12,5 +12,8 @@ message Params {
   option (amino.name) = "spider/x/tokenfactory/Params";
   option (gogoproto.equal) = true;
 
-  cosmos.base.v1beta1.Coin creation_fee = 3 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
+  cosmos.base.v1beta1.Coin creation_fee = 3 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
 }

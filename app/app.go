@@ -48,6 +48,7 @@ import (
 
 	"spider/docs"
 	identitymodulekeeper "spider/x/identity/keeper"
+	loanmodulekeeper "spider/x/loan/keeper"
 	officialmodulekeeper "spider/x/official/keeper"
 	tokenfactorymodulekeeper "spider/x/tokenfactory/keeper"
 )
@@ -107,6 +108,7 @@ type App struct {
 	OfficialKeeper     officialmodulekeeper.Keeper
 	IdentityKeeper     identitymodulekeeper.Keeper
 	TokenfactoryKeeper tokenfactorymodulekeeper.Keeper
+	LoanKeeper         loanmodulekeeper.Keeper
 }
 
 func init() {
@@ -190,6 +192,7 @@ func New(
 		&app.OfficialKeeper,
 		&app.IdentityKeeper,
 		&app.TokenfactoryKeeper,
+		&app.LoanKeeper,
 	); err != nil {
 		panic(err)
 	}

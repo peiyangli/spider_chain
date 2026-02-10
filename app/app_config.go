@@ -3,6 +3,8 @@ package app
 import (
 	_ "spider/x/identity/module"
 	identitymoduletypes "spider/x/identity/types"
+	_ "spider/x/loan/module"
+	loanmoduletypes "spider/x/loan/types"
 	_ "spider/x/official/module"
 	officialmoduletypes "spider/x/official/types"
 	_ "spider/x/tokenfactory/module"
@@ -87,7 +89,7 @@ var (
 		{Account: nft.ModuleName},
 		{Account: ibctransfertypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner}},
 		{Account: icatypes.ModuleName},
-		{Account: tokenfactorymoduletypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner, authtypes.Staking}}}
+		{Account: tokenfactorymoduletypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner, authtypes.Staking}}, {Account: loanmoduletypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner, authtypes.Staking}}}
 
 	// blocked account addresses
 	blockAccAddrs = []string{
@@ -132,6 +134,7 @@ var (
 						officialmoduletypes.ModuleName,
 						identitymoduletypes.ModuleName,
 						tokenfactorymoduletypes.ModuleName,
+						loanmoduletypes.ModuleName,
 						// this line is used by starport scaffolding # stargate/app/beginBlockers
 					},
 					EndBlockers: []string{
@@ -143,6 +146,7 @@ var (
 						officialmoduletypes.ModuleName,
 						identitymoduletypes.ModuleName,
 						tokenfactorymoduletypes.ModuleName,
+						loanmoduletypes.ModuleName,
 						// this line is used by starport scaffolding # stargate/app/endBlockers
 					},
 					// The following is mostly only needed when ModuleName != StoreKey name.
@@ -182,6 +186,7 @@ var (
 						officialmoduletypes.ModuleName,
 						identitymoduletypes.ModuleName,
 						tokenfactorymoduletypes.ModuleName,
+						loanmoduletypes.ModuleName,
 						// this line is used by starport scaffolding # stargate/app/initGenesis
 					},
 				}),
@@ -289,6 +294,10 @@ var (
 			{
 				Name:   tokenfactorymoduletypes.ModuleName,
 				Config: appconfig.WrapAny(&tokenfactorymoduletypes.Module{}),
+			},
+			{
+				Name:   loanmoduletypes.ModuleName,
+				Config: appconfig.WrapAny(&loanmoduletypes.Module{}),
 			},
 			// this line is used by starport scaffolding # stargate/app/moduleConfig
 		},
