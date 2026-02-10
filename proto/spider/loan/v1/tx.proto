@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 package spider.loan.v1;
 
 import "amino/amino.proto";
@@ -16,6 +17,21 @@ service Msg {
   // UpdateParams defines a (governance) operation for updating the module
   // parameters. The authority defaults to the x/gov module account.
   rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
+
+  // RequestLoan defines the RequestLoan RPC.
+  rpc RequestLoan(MsgRequestLoan) returns (MsgRequestLoanResponse);
+
+  // ApproveLoan defines the ApproveLoan RPC.
+  rpc ApproveLoan(MsgApproveLoan) returns (MsgApproveLoanResponse);
+
+  // CancelLoan defines the CancelLoan RPC.
+  rpc CancelLoan(MsgCancelLoan) returns (MsgCancelLoanResponse);
+
+  // RepayLoan defines the RepayLoan RPC.
+  rpc RepayLoan(MsgRepayLoan) returns (MsgRepayLoanResponse);
+
+  // LiquidateLoan defines the LiquidateLoan RPC.
+  rpc LiquidateLoan(MsgLiquidateLoan) returns (MsgLiquidateLoanResponse);
 }
 
 // MsgUpdateParams is the Msg/UpdateParams request type.
@@ -27,7 +43,7 @@ message MsgUpdateParams {
   string authority = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
   // params defines the module parameters to update.
-  //
+
   // NOTE: All parameters must be supplied.
   Params params = 2 [
     (gogoproto.nullable) = false,
@@ -38,3 +54,64 @@ message MsgUpdateParams {
 // MsgUpdateParamsResponse defines the response structure for executing a
 // MsgUpdateParams message.
 message MsgUpdateParamsResponse {}
+
+// MsgRequestLoan defines the MsgRequestLoan message.
+message MsgRequestLoan {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  uint64 deadline = 2;
+  string amount = 3;
+  string fee = 4;
+  string collateral_type = 5;
+  string collateral_coin = 6;
+  string collateral_nft_class = 7;
+  string collateral_nft_id = 8;
+}
+
+// MsgRequestLoanResponse defines the MsgRequestLoanResponse message.
+message MsgRequestLoanResponse {}
+
+// MsgApproveLoan defines the MsgApproveLoan message.
+message MsgApproveLoan {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  uint64 seq = 2;
+  string borrower = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  uint64 public_liquidation_delay = 4;
+  string public_liquidation_reward = 5;
+}
+
+// MsgApproveLoanResponse defines the MsgApproveLoanResponse message.
+message MsgApproveLoanResponse {}
+
+// MsgCancelLoan defines the MsgCancelLoan message.
+message MsgCancelLoan {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  uint64 seq = 2;
+}
+
+// MsgCancelLoanResponse defines the MsgCancelLoanResponse message.
+message MsgCancelLoanResponse {}
+
+// MsgRepayLoan defines the MsgRepayLoan message.
+message MsgRepayLoan {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  uint64 seq = 2;
+  string borrower = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+}
+
+// MsgRepayLoanResponse defines the MsgRepayLoanResponse message.
+message MsgRepayLoanResponse {}
+
+// MsgLiquidateLoan defines the MsgLiquidateLoan message.
+message MsgLiquidateLoan {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  uint64 seq = 2;
+  string borrower = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+}
+
+// MsgLiquidateLoanResponse defines the MsgLiquidateLoanResponse message.
+message MsgLiquidateLoanResponse {}
