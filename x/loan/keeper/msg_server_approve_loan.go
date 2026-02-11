@@ -31,6 +31,13 @@ func (k msgServer) ApproveLoan(ctx context.Context, msg *types.MsgApproveLoan) (
 	if loan.Borrower != msg.Borrower {
 		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "not borrower")
 	}
+
+	sdkCtx := sdk.UnwrapSDKContext(ctx)
+	blockHeight := uint64(sdkCtx.BlockHeight())
+	if blockHeight > loan.ApproveDeadline {
+		return nil, errorsmod.Wrap(sdkerrors.ErrLogic, "approve deadline")
+	}
+
 	borrowerAddr, err := k.addressCodec.StringToBytes(loan.Borrower)
 	if err != nil {
 		return nil, errorsmod.Wrap(err, "invalid borrower address")
@@ -59,6 +66,7 @@ func (k msgServer) ApproveLoan(ctx context.Context, msg *types.MsgApproveLoan) (
 	loan.Status = uint64(LoanStatusAprroved)
 	loan.PublicLiquidationDelay = msg.PublicLiquidationDelay
 	loan.PublicLiquidationReward = msg.PublicLiquidationReward
+	loan.RepayDeadline = blockHeight + loan.Term //todo
 
 	key2 := collections.Join3(loan.Borrower, loan.Status, msg.Seq)
 	err = k.Loan.Set(ctx, key2, loan)

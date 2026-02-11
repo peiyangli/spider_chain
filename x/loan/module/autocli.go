@@ -42,9 +42,9 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 				},
 				{
 					RpcMethod:      "RequestLoan",
-					Use:            "request-loan [deadline] [amount] [fee] [collateral-type] [collateral-coin] [collateral-nft-class] [collateral-nft-id]",
+					Use:            "request-loan [term] [deadline] [amount] [fee] [collateral-type] [collateral-coin] [collateral-nft-class] [collateral-nft-id]",
 					Short:          "Send a request-loan tx",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "deadline"}, {ProtoField: "amount"}, {ProtoField: "fee"}, {ProtoField: "collateral_type"}, {ProtoField: "collateral_coin"}, {ProtoField: "collateral_nft_class"}, {ProtoField: "collateral_nft_id"}},
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "term"}, {ProtoField: "deadline"}, {ProtoField: "amount"}, {ProtoField: "fee"}, {ProtoField: "collateral_type"}, {ProtoField: "collateral_coin"}, {ProtoField: "collateral_nft_class"}, {ProtoField: "collateral_nft_id"}},
 				},
 				{
 					RpcMethod:      "ApproveLoan",

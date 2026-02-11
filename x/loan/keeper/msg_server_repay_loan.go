@@ -46,7 +46,7 @@ func (k msgServer) RepayLoan(ctx context.Context, msg *types.MsgRepayLoan) (*typ
 	if err != nil {
 		return nil, err
 	}
-	if loan.CollateralType == loan.CollateralCoin {
+	if loan.CollateralType == CollateralTypeCoin {
 		collateral, _ := sdk.ParseCoinsNormalized(loan.CollateralCoin)
 		//取回质押
 		err = k.bankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, borrowerAddr, collateral)

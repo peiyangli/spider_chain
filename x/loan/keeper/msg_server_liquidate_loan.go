@@ -24,12 +24,12 @@ func (k msgServer) LiquidateLoan(ctx context.Context, msg *types.MsgLiquidateLoa
 		return nil, err
 	}
 	blockHeight := uint64(sdkCtx.BlockHeight())
-	if blockHeight < loan.Deadline {
+	if blockHeight < loan.RepayDeadline {
 		return nil, errorsmod.Wrap(types.ErrDeadline, "Cannot liquidate before deadline")
 	}
 	if msg.Creator != loan.Lender {
 		//public liquidate
-		if loan.Deadline-blockHeight < loan.PublicLiquidationDelay {
+		if loan.RepayDeadline-blockHeight < loan.PublicLiquidationDelay {
 			return nil, errorsmod.Wrap(types.ErrDeadline, "Cannot liquidate before deadline")
 		}
 	}
@@ -42,7 +42,7 @@ func (k msgServer) LiquidateLoan(ctx context.Context, msg *types.MsgLiquidateLoa
 		}
 	}
 
-	if loan.CollateralType == loan.CollateralCoin {
+	if loan.CollateralType == CollateralTypeCoin {
 		collateral, _ := sdk.ParseCoinsNormalized(loan.CollateralCoin)
 		err = k.bankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, lenderAddr, collateral)
 		if err != nil {
