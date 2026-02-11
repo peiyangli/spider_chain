@@ -48,8 +48,14 @@ func (k msgServer) LiquidateLoan(ctx context.Context, msg *types.MsgLiquidateLoa
 		if err != nil {
 			return nil, err
 		}
-	} else {
+	} else if loan.CollateralType == CollateralTypeNft {
 		//todo nft
+		// return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "collateral not support")
+		err = k.nftKeeper.Transfer(ctx, loan.CollateralNftClass, loan.CollateralNftId, lenderAddr)
+		if err != nil {
+			return nil, err
+		}
+	} else {
 		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "collateral not support")
 	}
 

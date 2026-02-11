@@ -56,6 +56,7 @@ func ProvideModule(in ModuleInputs) ModuleOutputs {
 		in.Cdc,
 		in.AddressCodec,
 		authority,
+		in.AuthKeeper,
 		in.BankKeeper,
 		in.NftKeeper,
 	)

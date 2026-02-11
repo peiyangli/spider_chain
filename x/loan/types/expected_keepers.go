@@ -20,6 +20,7 @@ type AuthKeeper interface {
 	AddressCodec() address.Codec
 	GetAccount(context.Context, sdk.AccAddress) sdk.AccountI // only used for simulation
 	// Methods imported from account should be defined here
+	GetModuleAddress(moduleName string) sdk.AccAddress
 }
 
 // BankKeeper defines the expected interface for the Bank module.

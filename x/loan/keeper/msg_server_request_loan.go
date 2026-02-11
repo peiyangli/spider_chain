@@ -1,6 +1,7 @@
 package keeper
 
 import (
+	"bytes"
 	"context"
 
 	"spider/x/loan/types"
@@ -55,8 +56,25 @@ func (k msgServer) RequestLoan(ctx context.Context, msg *types.MsgRequestLoan) (
 		if sdkError != nil {
 			return nil, sdkError
 		}
-	} else {
+	} else if msg.CollateralType == CollateralTypeNft {
 		//todo nft
+		nftOwner := k.nftKeeper.GetOwner(ctx, msg.CollateralNftClass, msg.CollateralNftId)
+		// if !nftOwner.Equals(sdk.AccAddress(borrowerAddr)) {
+		// 	return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "not nft owner")
+		// }
+		if !bytes.Equal(nftOwner, borrowerAddr) {
+			return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "not nft owner")
+		}
+		// k.nftKeeper.Send(ctx, &nft.MsgSend{})
+		moduleAddr := k.authKeeper.GetModuleAddress(types.ModuleName)
+		if moduleAddr == nil {
+			return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "module account not set")
+		}
+		err = k.nftKeeper.Transfer(ctx, msg.CollateralNftClass, msg.CollateralNftId, moduleAddr)
+		if err != nil {
+			return nil, err
+		}
+	} else {
 		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "collateral not support")
 	}
 

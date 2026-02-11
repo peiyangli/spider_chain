@@ -22,6 +22,7 @@ type Keeper struct {
 	Schema collections.Schema
 	Params collections.Item[types.Params]
 
+	authKeeper types.AuthKeeper
 	bankKeeper types.BankKeeper
 	nftKeeper  types.NftKeeper
 	LoanSeq    collections.Sequence
@@ -34,6 +35,7 @@ func NewKeeper(
 	addressCodec address.Codec,
 	authority []byte,
 
+	authKeeper types.AuthKeeper,
 	bankKeeper types.BankKeeper,
 	nftKeeper types.NftKeeper,
 ) Keeper {
@@ -49,6 +51,7 @@ func NewKeeper(
 		addressCodec: addressCodec,
 		authority:    authority,
 
+		authKeeper: authKeeper,
 		bankKeeper: bankKeeper,
 		nftKeeper:  nftKeeper,
 		Params:     collections.NewItem(sb, types.ParamsKey, "params", codec.CollValue[types.Params](cdc)),

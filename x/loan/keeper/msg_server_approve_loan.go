@@ -54,8 +54,10 @@ func (k msgServer) ApproveLoan(ctx context.Context, msg *types.MsgApproveLoan) (
 		if err != nil {
 			return nil, err
 		}
-	} else {
+	} else if loan.CollateralType == CollateralTypeNft {
 		//todo nft
+		// return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "collateral not support")
+	} else {
 		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "collateral not support")
 	}
 	err = k.Loan.Remove(ctx, key)

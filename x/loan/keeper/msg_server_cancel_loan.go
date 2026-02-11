@@ -35,8 +35,13 @@ func (k msgServer) CancelLoan(ctx context.Context, msg *types.MsgCancelLoan) (*t
 				return nil, err
 			}
 		}
-	} else {
+	} else if loan.CollateralType == CollateralTypeNft {
 		//todo nft
+		err = k.nftKeeper.Transfer(ctx, loan.CollateralNftClass, loan.CollateralNftId, borrowerAddr)
+		if err != nil {
+			return nil, err
+		}
+	} else {
 		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "collateral not support")
 	}
 	err = k.Loan.Remove(ctx, key)
