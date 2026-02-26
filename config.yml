@@ -1,6 +1,8 @@
 version: 1
 validation: sovereign
 default_denom: usc
+build:
+  main: ./cmd/spiderd
 accounts: 
 - name: alice
   coins:
