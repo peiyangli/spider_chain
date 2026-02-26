@@ -9,7 +9,7 @@ import (
 )
 
 func TestHandler(t *testing.T) {
-	Handlers.Register(NewGenericHandler(func(context.Context, *types.MsgCreateDenom) error { return nil }))
+	txEventsHandlers.Register(NewGenericHandler(func(context.Context, *types.MsgCreateDenom) error { return nil }))
 
-	Handlers.Dispatch(context.Background(), &anypb.Any{})
+	txEventsHandlers.Dispatch(context.Background(), &anypb.Any{})
 }

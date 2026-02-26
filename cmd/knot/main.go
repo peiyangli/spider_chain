@@ -5,7 +5,10 @@ import (
 	"log"
 	"os"
 	"spider/cmd/knot/knot"
-	"spider/x/tokenfactory/types"
+	identitytypes "spider/x/identity/types"
+	loantypes "spider/x/loan/types"
+	officialtypes "spider/x/official/types"
+	tokenfactorytypes "spider/x/tokenfactory/types"
 
 	txv1beta1 "cosmossdk.io/api/cosmos/tx/v1beta1"
 	abci "github.com/cometbft/cometbft/abci/types"
@@ -21,10 +24,35 @@ const (
 	eventType  = "my_module.my_event"
 )
 
-func MsgCreateDenom(ctx context.Context, evt *types.MsgCreateDenom) error {
+// ==============================
+// handlers
+func MsgCreateOperator(ctx context.Context, evt *officialtypes.MsgCreateOperator) error {
 	log.Println(evt)
 	return nil
 }
+func MsgCreateDenom(ctx context.Context, evt *tokenfactorytypes.MsgCreateDenom) error {
+	log.Println(evt)
+	return nil
+}
+func MsgCreateIdentity(ctx context.Context, evt *identitytypes.MsgCreateIdentity) error {
+	log.Println(evt)
+	return nil
+}
+func MsgRequestLoan(ctx context.Context, evt *loantypes.MsgRequestLoan) error {
+	log.Println(evt)
+	return nil
+}
+
+// ------------------------------
+
+func RegisterHandlers() {
+	knot.TxEventsRegister(knot.NewGenericHandler(MsgCreateDenom))
+	knot.TxEventsRegister(knot.NewGenericHandler(MsgRequestLoan))
+	knot.TxEventsRegister(knot.NewGenericHandler(MsgCreateIdentity))
+	knot.TxEventsRegister(knot.NewGenericHandler(MsgCreateOperator))
+}
+
+// ==============================
 
 func main() {
 	log.SetFlags(11)
@@ -32,7 +60,7 @@ func main() {
 	ctx := context.Background()
 
 	//注册处理函数
-	knot.Handlers.Register(knot.NewGenericHandler(MsgCreateDenom))
+	RegisterHandlers()
 
 	//客户端
 	conn, err := rpchttp.New(wsEndpoint, "/websocket")
@@ -90,9 +118,9 @@ func handleTx(ev coretypes.EventDataTx) error {
 		return nil
 	}
 	ctx := context.Background()
-	log.Println(tx)
+	// log.Println(tx)
 	for _, mi := range tx.Body.Messages {
-		err := knot.Handlers.Dispatch(ctx, mi)
+		err := knot.TxEventsDispatch(ctx, mi)
 		if err != nil {
 			log.Println(err, mi)
 			continue

@@ -20,7 +20,14 @@ type Registry struct {
 	m  map[string]Handler
 }
 
-var Handlers = NewRegistry()
+var txEventsHandlers = NewRegistry()
+
+func TxEventsRegister(h Handler) error {
+	return txEventsHandlers.Register(h)
+}
+func TxEventsDispatch(ctx context.Context, a *anypb.Any) error {
+	return txEventsHandlers.Dispatch(ctx, a)
+}
 
 func NewRegistry() *Registry {
 	return &Registry{m: make(map[string]Handler)}
