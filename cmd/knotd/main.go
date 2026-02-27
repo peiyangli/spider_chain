@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"spider/cmd/knot/knot"
+	"spider/cmd/knotd/knot"
 	identitytypes "spider/x/identity/types"
 	loantypes "spider/x/loan/types"
 	officialtypes "spider/x/official/types"
