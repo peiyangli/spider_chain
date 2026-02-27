@@ -3,6 +3,8 @@ validation: sovereign
 default_denom: usc
 build:
   main: ./cmd/spiderd
+  ignore:
+    - "cmd/knot"
 accounts: 
 - name: alice
   coins:

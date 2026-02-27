@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 	"spider/cmd/knot/knot"
@@ -75,6 +76,12 @@ func main() {
 	lw := logger.NewTMLogger(os.Stdout)
 	conn.SetLogger(lw)
 
+	st, _ := conn.Status(ctx)
+	log.Printf("node=%s height=%d", st.NodeInfo.Moniker, st.SyncInfo.LatestBlockHeight)
+
+	// 恢复测试
+	catchUpByHeight(ctx, conn, 18839, st.SyncInfo.LatestBlockHeight)
+
 	// 订阅所有 Tx；然后在客户端侧过滤自定义事件（最稳）
 	query := "tm.event='Tx'"
 
@@ -91,10 +98,11 @@ func main() {
 		case msg := <-out:
 			ev, ok := msg.Data.(coretypes.EventDataTx)
 			if !ok {
+				log.Println("event failed?")
 				continue
 			}
 			// v0.50+：TxResult 里有 ABCI events
-			handleTx(ev)
+			handleTx(ev.TxResult)
 		case <-ctx.Done():
 			return
 		}
@@ -105,11 +113,12 @@ func main() {
 
 //------------------------------------------------
 
-func handleTx(ev coretypes.EventDataTx) error {
+func handleTx(ev abci.TxResult) error {
 	if ev.Result.Code != 0 {
 		log.Println(ev.Result.Log)
 		return nil
 	}
+	log.Printf("=======tx> height:%v, index:%v", ev.Height, ev.Index)
 	var tx txv1beta1.Tx
 	if err := proto.Unmarshal(ev.Tx, &tx); err != nil {
 		return err
@@ -137,3 +146,38 @@ func attrsToMap(kvs []abci.EventAttribute) map[string]string {
 	}
 	return m
 }
+
+func catchUpByHeight(ctx context.Context, c *rpchttp.HTTP, from, to int64) error {
+	const perPage = 100
+	log.Println("catchUpByHeight")
+	for h := from; h <= to; h++ {
+		page := 1
+		for {
+			q := fmt.Sprintf("tx.height=%d", h)
+			res, err := c.TxSearch(ctx, q, false, &page, ptrInt(perPage), "")
+			if err != nil {
+				log.Println(err)
+				return err
+			}
+
+			// log.Println("catchUpByHeight", h, len(res.Txs), perPage)
+			for _, ev := range res.Txs {
+				// tx 是 *coretypes.ResultTx，里面有 TxResult（含 events）
+				handleTx(abci.TxResult{
+					Height: ev.Height,
+					Index:  ev.Index,
+					Tx:     ev.Tx,
+					Result: ev.TxResult,
+				})
+			}
+
+			if len(res.Txs) < perPage {
+				break
+			}
+			page++
+		}
+	}
+	return nil
+}
+
+func ptrInt(v int) *int { return &v }
