@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+package spider.snft.v1;
+
+import "amino/amino.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "cosmos/base/v1beta1/coin.proto";
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "spider/snft/v1/class_namespace.proto";
+import "spider/snft/v1/class_owner.proto";
+import "spider/snft/v1/params.proto";
+
+option go_package = "spider/x/snft/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  // Parameters queries the parameters of the module.
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/spider/snft/v1/params";
+  }
+
+  // ListClassOwner Queries a list of ClassOwner items.
+  rpc GetClassOwner(QueryGetClassOwnerRequest) returns (QueryGetClassOwnerResponse) {
+    option (google.api.http).get = "/spider/snft/v1/class_owner/{class_id}";
+  }
+
+  // ListClassOwner defines the ListClassOwner RPC.
+  rpc ListClassOwner(QueryAllClassOwnerRequest) returns (QueryAllClassOwnerResponse) {
+    option (google.api.http).get = "/spider/snft/v1/class_owner";
+  }
+
+  // ListClassNamespace Queries a list of ClassNamespace items.
+  rpc GetClassNamespace(QueryGetClassNamespaceRequest) returns (QueryGetClassNamespaceResponse) {
+    option (google.api.http).get = "/spider/snft/v1/class_namespace/{namespace}";
+  }
+
+  // ListClassNamespace defines the ListClassNamespace RPC.
+  rpc ListClassNamespace(QueryAllClassNamespaceRequest) returns (QueryAllClassNamespaceResponse) {
+    option (google.api.http).get = "/spider/snft/v1/class_namespace";
+  }
+}
+
+// QueryParamsRequest is request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  // params holds all the parameters of this module.
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}
+
+// QueryGetClassOwnerRequest defines the QueryGetClassOwnerRequest message.
+message QueryGetClassOwnerRequest {
+  string class_id = 1;
+}
+
+// QueryGetClassOwnerResponse defines the QueryGetClassOwnerResponse message.
+message QueryGetClassOwnerResponse {
+  ClassOwner class_owner = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryAllClassOwnerRequest defines the QueryAllClassOwnerRequest message.
+message QueryAllClassOwnerRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+// QueryAllClassOwnerResponse defines the QueryAllClassOwnerResponse message.
+message QueryAllClassOwnerResponse {
+  repeated ClassOwner class_owner = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// QueryGetClassNamespaceRequest defines the QueryGetClassNamespaceRequest message.
+message QueryGetClassNamespaceRequest {
+  string namespace = 1;
+}
+
+// QueryGetClassNamespaceResponse defines the QueryGetClassNamespaceResponse message.
+message QueryGetClassNamespaceResponse {
+  ClassNamespace class_namespace = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryAllClassNamespaceRequest defines the QueryAllClassNamespaceRequest message.
+message QueryAllClassNamespaceRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+// QueryAllClassNamespaceResponse defines the QueryAllClassNamespaceResponse message.
+message QueryAllClassNamespaceResponse {
+  repeated ClassNamespace class_namespace = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}

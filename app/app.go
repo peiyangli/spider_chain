@@ -50,6 +50,7 @@ import (
 	identitymodulekeeper "spider/x/identity/keeper"
 	loanmodulekeeper "spider/x/loan/keeper"
 	officialmodulekeeper "spider/x/official/keeper"
+	snftmodulekeeper "spider/x/snft/keeper"
 	tokenfactorymodulekeeper "spider/x/tokenfactory/keeper"
 )
 
@@ -109,6 +110,7 @@ type App struct {
 	IdentityKeeper     identitymodulekeeper.Keeper
 	TokenfactoryKeeper tokenfactorymodulekeeper.Keeper
 	LoanKeeper         loanmodulekeeper.Keeper
+	SnftKeeper         snftmodulekeeper.Keeper
 }
 
 func init() {
@@ -193,6 +195,7 @@ func New(
 		&app.IdentityKeeper,
 		&app.TokenfactoryKeeper,
 		&app.LoanKeeper,
+		&app.SnftKeeper,
 	); err != nil {
 		panic(err)
 	}

@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package spider.snft.v1;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "spider/snft/v1/class_namespace.proto";
+import "spider/snft/v1/class_owner.proto";
+import "spider/snft/v1/params.proto";
+
+option go_package = "spider/x/snft/types";
+
+// GenesisState defines the snft module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+  repeated ClassOwner class_owner_map = 2 [(gogoproto.nullable) = false];
+  repeated ClassNamespace class_namespace_map = 3 [(gogoproto.nullable) = false];
+}

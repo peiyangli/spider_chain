@@ -1,0 +1,157 @@
+syntax = "proto3";
+
+package spider.snft.v1;
+
+import "amino/amino.proto";
+import "cosmos/base/v1beta1/coin.proto";
+import "cosmos/msg/v1/msg.proto";
+import "cosmos_proto/cosmos.proto";
+import "gogoproto/gogo.proto";
+import "spider/snft/v1/params.proto";
+
+option go_package = "spider/x/snft/types";
+
+// Msg defines the Msg service.
+service Msg {
+  option (cosmos.msg.v1.service) = true;
+
+  // UpdateParams defines a (governance) operation for updating the module
+  // parameters. The authority defaults to the x/gov module account.
+  rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
+
+  // CreateClassOwner defines the CreateClassOwner RPC.
+  rpc CreateClassOwner(MsgCreateClassOwner) returns (MsgCreateClassOwnerResponse);
+
+  // UpdateClassOwner defines the UpdateClassOwner RPC.
+  rpc UpdateClassOwner(MsgUpdateClassOwner) returns (MsgUpdateClassOwnerResponse);
+
+  // DeleteClassOwner defines the DeleteClassOwner RPC.
+  rpc DeleteClassOwner(MsgDeleteClassOwner) returns (MsgDeleteClassOwnerResponse);
+
+  // RespondClassOwnerTransfer defines the RespondClassOwnerTransfer RPC.
+  rpc RespondClassOwnerTransfer(MsgRespondClassOwnerTransfer) returns (MsgRespondClassOwnerTransferResponse);
+
+  // MintAndSend defines the MintAndSend RPC.
+  rpc MintAndSend(MsgMintAndSend) returns (MsgMintAndSendResponse);
+
+  // CreateClassNamespace defines the CreateClassNamespace RPC.
+  rpc CreateClassNamespace(MsgCreateClassNamespace) returns (MsgCreateClassNamespaceResponse);
+
+  // UpdateClassNamespace defines the UpdateClassNamespace RPC.
+  rpc UpdateClassNamespace(MsgUpdateClassNamespace) returns (MsgUpdateClassNamespaceResponse);
+
+  // DeleteClassNamespace defines the DeleteClassNamespace RPC.
+  rpc DeleteClassNamespace(MsgDeleteClassNamespace) returns (MsgDeleteClassNamespaceResponse);
+}
+
+// MsgUpdateParams is the Msg/UpdateParams request type.
+message MsgUpdateParams {
+  option (cosmos.msg.v1.signer) = "authority";
+  option (amino.name) = "spider/x/snft/MsgUpdateParams";
+
+  // authority is the address that controls the module (defaults to x/gov unless overwritten).
+  string authority = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // params defines the module parameters to update.
+
+  // NOTE: All parameters must be supplied.
+  Params params = 2 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}
+
+// MsgUpdateParamsResponse defines the response structure for executing a
+// MsgUpdateParams message.
+message MsgUpdateParamsResponse {}
+
+// MsgCreateClassOwner defines the MsgCreateClassOwner message.
+message MsgCreateClassOwner {
+  option (cosmos.msg.v1.signer) = "owner";
+  string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string class_id = 2;
+  string pending_owner = 3;
+  cosmos.base.v1beta1.Coin creation_fee = 4 [(gogoproto.nullable) = false];
+}
+
+// MsgCreateClassOwnerResponse defines the MsgCreateClassOwnerResponse message.
+message MsgCreateClassOwnerResponse {}
+
+// MsgUpdateClassOwner defines the MsgUpdateClassOwner message.
+message MsgUpdateClassOwner {
+  option (cosmos.msg.v1.signer) = "owner";
+  string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string class_id = 2;
+  string pending_owner = 3;
+  cosmos.base.v1beta1.Coin creation_fee = 4 [(gogoproto.nullable) = false];
+}
+
+// MsgUpdateClassOwnerResponse defines the MsgUpdateClassOwnerResponse message.
+message MsgUpdateClassOwnerResponse {}
+
+// MsgDeleteClassOwner defines the MsgDeleteClassOwner message.
+message MsgDeleteClassOwner {
+  option (cosmos.msg.v1.signer) = "owner";
+  string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string class_id = 2;
+}
+
+// MsgDeleteClassOwnerResponse defines the MsgDeleteClassOwnerResponse message.
+message MsgDeleteClassOwnerResponse {}
+
+// MsgRespondClassOwnerTransfer defines the MsgRespondClassOwnerTransfer message.
+message MsgRespondClassOwnerTransfer {
+  option (cosmos.msg.v1.signer) = "owner";
+  string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string class_id = 2;
+  uint64 decision = 3;
+}
+
+// MsgRespondClassOwnerTransferResponse defines the MsgRespondClassOwnerTransferResponse message.
+message MsgRespondClassOwnerTransferResponse {}
+
+// MsgMintAndSend defines the MsgMintAndSend message.
+message MsgMintAndSend {
+  option (cosmos.msg.v1.signer) = "owner";
+  string owner = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string class_id = 2;
+  string nft_id = 3;
+  string uri = 4;
+  string uri_hash = 5;
+  string recipient = 6;
+}
+
+// MsgMintAndSendResponse defines the MsgMintAndSendResponse message.
+message MsgMintAndSendResponse {}
+
+// MsgCreateClassNamespace defines the MsgCreateClassNamespace message.
+message MsgCreateClassNamespace {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string namespace = 2;
+  cosmos.base.v1beta1.Coin creation_fee = 3 [(gogoproto.nullable) = false];
+}
+
+// MsgCreateClassNamespaceResponse defines the MsgCreateClassNamespaceResponse message.
+message MsgCreateClassNamespaceResponse {}
+
+// MsgUpdateClassNamespace defines the MsgUpdateClassNamespace message.
+message MsgUpdateClassNamespace {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string namespace = 2;
+  cosmos.base.v1beta1.Coin creation_fee = 3 [(gogoproto.nullable) = false];
+}
+
+// MsgUpdateClassNamespaceResponse defines the MsgUpdateClassNamespaceResponse message.
+message MsgUpdateClassNamespaceResponse {}
+
+// MsgDeleteClassNamespace defines the MsgDeleteClassNamespace message.
+message MsgDeleteClassNamespace {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string namespace = 2;
+}
+
+// MsgDeleteClassNamespaceResponse defines the MsgDeleteClassNamespaceResponse message.
+message MsgDeleteClassNamespaceResponse {}

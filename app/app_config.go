@@ -7,6 +7,8 @@ import (
 	loanmoduletypes "spider/x/loan/types"
 	_ "spider/x/official/module"
 	officialmoduletypes "spider/x/official/types"
+	_ "spider/x/snft/module"
+	snftmoduletypes "spider/x/snft/types"
 	_ "spider/x/tokenfactory/module"
 	tokenfactorymoduletypes "spider/x/tokenfactory/types"
 	"time"
@@ -89,7 +91,7 @@ var (
 		{Account: nft.ModuleName},
 		{Account: ibctransfertypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner}},
 		{Account: icatypes.ModuleName},
-		{Account: tokenfactorymoduletypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner, authtypes.Staking}}, {Account: loanmoduletypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner, authtypes.Staking}}}
+		{Account: tokenfactorymoduletypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner, authtypes.Staking}}, {Account: loanmoduletypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner, authtypes.Staking}}, {Account: snftmoduletypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner, authtypes.Staking}}}
 
 	// blocked account addresses
 	blockAccAddrs = []string{
@@ -135,6 +137,7 @@ var (
 						identitymoduletypes.ModuleName,
 						tokenfactorymoduletypes.ModuleName,
 						loanmoduletypes.ModuleName,
+						snftmoduletypes.ModuleName,
 						// this line is used by starport scaffolding # stargate/app/beginBlockers
 					},
 					EndBlockers: []string{
@@ -147,6 +150,7 @@ var (
 						identitymoduletypes.ModuleName,
 						tokenfactorymoduletypes.ModuleName,
 						loanmoduletypes.ModuleName,
+						snftmoduletypes.ModuleName,
 						// this line is used by starport scaffolding # stargate/app/endBlockers
 					},
 					// The following is mostly only needed when ModuleName != StoreKey name.
@@ -187,6 +191,7 @@ var (
 						identitymoduletypes.ModuleName,
 						tokenfactorymoduletypes.ModuleName,
 						loanmoduletypes.ModuleName,
+						snftmoduletypes.ModuleName,
 						// this line is used by starport scaffolding # stargate/app/initGenesis
 					},
 				}),
@@ -298,6 +303,10 @@ var (
 			{
 				Name:   loanmoduletypes.ModuleName,
 				Config: appconfig.WrapAny(&loanmoduletypes.Module{}),
+			},
+			{
+				Name:   snftmoduletypes.ModuleName,
+				Config: appconfig.WrapAny(&snftmoduletypes.Module{}),
 			},
 			// this line is used by starport scaffolding # stargate/app/moduleConfig
 		},
