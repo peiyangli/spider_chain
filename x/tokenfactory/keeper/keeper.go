@@ -26,6 +26,7 @@ type Keeper struct {
 	bankKeeper     types.BankKeeper
 	officialKeeper types.OfficialKeeper
 	Denom          collections.Map[string, types.Denom]
+	Namespace      collections.Map[string, types.Namespace]
 }
 
 func NewKeeper(
@@ -54,7 +55,7 @@ func NewKeeper(
 		bankKeeper:     bankKeeper,
 		officialKeeper: officialKeeper,
 		Params:         collections.NewItem(sb, types.ParamsKey, "params", codec.CollValue[types.Params](cdc)),
-		Denom:          collections.NewMap(sb, types.DenomKey, "denom", collections.StringKey, codec.CollValue[types.Denom](cdc))}
+		Denom:          collections.NewMap(sb, types.DenomKey, "denom", collections.StringKey, codec.CollValue[types.Denom](cdc)), Namespace: collections.NewMap(sb, types.NamespaceKey, "namespace", collections.StringKey, codec.CollValue[types.Namespace](cdc))}
 
 	schema, err := sb.Build()
 	if err != nil {

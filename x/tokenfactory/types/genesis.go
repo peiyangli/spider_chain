@@ -6,7 +6,7 @@ import "fmt"
 func DefaultGenesis() *GenesisState {
 	return &GenesisState{
 		Params:   DefaultParams(),
-		DenomMap: []Denom{}}
+		DenomMap: []Denom{}, NamespaceMap: []Namespace{}}
 }
 
 // Validate performs basic genesis state validation returning an error upon any
@@ -20,6 +20,15 @@ func (gs GenesisState) Validate() error {
 			return fmt.Errorf("duplicated index for denom")
 		}
 		denomIndexMap[index] = struct{}{}
+	}
+	namespaceIndexMap := make(map[string]struct{})
+
+	for _, elem := range gs.NamespaceMap {
+		index := fmt.Sprint(elem.Namespace)
+		if _, ok := namespaceIndexMap[index]; ok {
+			return fmt.Errorf("duplicated index for namespace")
+		}
+		namespaceIndexMap[index] = struct{}{}
 	}
 
 	return gs.Params.Validate()

@@ -21,7 +21,7 @@ func TestGenesisState_Validate(t *testing.T) {
 		},
 		{
 			desc:     "valid genesis state",
-			genState: &types.GenesisState{DenomMap: []types.Denom{{Denom: "0"}, {Denom: "1"}}},
+			genState: &types.GenesisState{DenomMap: []types.Denom{{Denom: "0"}, {Denom: "1"}}, NamespaceMap: []types.Namespace{{Namespace: "0"}, {Namespace: "1"}}},
 			valid:    true,
 		}, {
 			desc: "duplicated denom",
@@ -32,6 +32,19 @@ func TestGenesisState_Validate(t *testing.T) {
 					},
 					{
 						Denom: "0",
+					},
+				},
+				NamespaceMap: []types.Namespace{{Namespace: "0"}, {Namespace: "1"}}},
+			valid: false,
+		}, {
+			desc: "duplicated namespace",
+			genState: &types.GenesisState{
+				NamespaceMap: []types.Namespace{
+					{
+						Namespace: "0",
+					},
+					{
+						Namespace: "0",
 					},
 				},
 			},

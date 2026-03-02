@@ -13,6 +13,11 @@ func (k Keeper) InitGenesis(ctx context.Context, genState types.GenesisState) er
 			return err
 		}
 	}
+	for _, elem := range genState.NamespaceMap {
+		if err := k.Namespace.Set(ctx, elem.Namespace, elem); err != nil {
+			return err
+		}
+	}
 
 	return k.Params.Set(ctx, genState.Params)
 }
@@ -28,6 +33,12 @@ func (k Keeper) ExportGenesis(ctx context.Context) (*types.GenesisState, error) 
 	}
 	if err := k.Denom.Walk(ctx, nil, func(_ string, val types.Denom) (stop bool, err error) {
 		genesis.DenomMap = append(genesis.DenomMap, val)
+		return false, nil
+	}); err != nil {
+		return nil, err
+	}
+	if err := k.Namespace.Walk(ctx, nil, func(_ string, val types.Namespace) (stop bool, err error) {
+		genesis.NamespaceMap = append(genesis.NamespaceMap, val)
 		return false, nil
 	}); err != nil {
 		return nil, err

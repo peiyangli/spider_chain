@@ -6,6 +6,10 @@ package types
 import (
 	context "context"
 	fmt "fmt"
+	io "io"
+	math "math"
+	math_bits "math/bits"
+
 	_ "github.com/cosmos/cosmos-proto"
 	types "github.com/cosmos/cosmos-sdk/types"
 	_ "github.com/cosmos/cosmos-sdk/types/msgservice"
@@ -16,9 +20,6 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	io "io"
-	math "math"
-	math_bits "math/bits"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -687,6 +688,292 @@ func (m *MsgUpdateOwnerResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgUpdateOwnerResponse proto.InternalMessageInfo
 
+// MsgCreateNamespace defines the MsgCreateNamespace message.
+type MsgCreateNamespace struct {
+	Creator     string     `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	Namespace   string     `protobuf:"bytes,2,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	CreationFee types.Coin `protobuf:"bytes,3,opt,name=creation_fee,json=creationFee,proto3" json:"creation_fee"`
+}
+
+func (m *MsgCreateNamespace) Reset()         { *m = MsgCreateNamespace{} }
+func (m *MsgCreateNamespace) String() string { return proto.CompactTextString(m) }
+func (*MsgCreateNamespace) ProtoMessage()    {}
+func (*MsgCreateNamespace) Descriptor() ([]byte, []int) {
+	return fileDescriptor_300825f7998a018a, []int{12}
+}
+func (m *MsgCreateNamespace) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgCreateNamespace) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgCreateNamespace.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgCreateNamespace) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgCreateNamespace.Merge(m, src)
+}
+func (m *MsgCreateNamespace) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgCreateNamespace) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgCreateNamespace.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgCreateNamespace proto.InternalMessageInfo
+
+func (m *MsgCreateNamespace) GetCreator() string {
+	if m != nil {
+		return m.Creator
+	}
+	return ""
+}
+
+func (m *MsgCreateNamespace) GetNamespace() string {
+	if m != nil {
+		return m.Namespace
+	}
+	return ""
+}
+
+func (m *MsgCreateNamespace) GetCreationFee() types.Coin {
+	if m != nil {
+		return m.CreationFee
+	}
+	return types.Coin{}
+}
+
+// MsgCreateNamespaceResponse defines the MsgCreateNamespaceResponse message.
+type MsgCreateNamespaceResponse struct {
+}
+
+func (m *MsgCreateNamespaceResponse) Reset()         { *m = MsgCreateNamespaceResponse{} }
+func (m *MsgCreateNamespaceResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgCreateNamespaceResponse) ProtoMessage()    {}
+func (*MsgCreateNamespaceResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_300825f7998a018a, []int{13}
+}
+func (m *MsgCreateNamespaceResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgCreateNamespaceResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgCreateNamespaceResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgCreateNamespaceResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgCreateNamespaceResponse.Merge(m, src)
+}
+func (m *MsgCreateNamespaceResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgCreateNamespaceResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgCreateNamespaceResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgCreateNamespaceResponse proto.InternalMessageInfo
+
+// MsgUpdateNamespace defines the MsgUpdateNamespace message.
+type MsgUpdateNamespace struct {
+	Creator     string     `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	Namespace   string     `protobuf:"bytes,2,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	CreationFee types.Coin `protobuf:"bytes,3,opt,name=creation_fee,json=creationFee,proto3" json:"creation_fee"`
+}
+
+func (m *MsgUpdateNamespace) Reset()         { *m = MsgUpdateNamespace{} }
+func (m *MsgUpdateNamespace) String() string { return proto.CompactTextString(m) }
+func (*MsgUpdateNamespace) ProtoMessage()    {}
+func (*MsgUpdateNamespace) Descriptor() ([]byte, []int) {
+	return fileDescriptor_300825f7998a018a, []int{14}
+}
+func (m *MsgUpdateNamespace) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgUpdateNamespace) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgUpdateNamespace.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgUpdateNamespace) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgUpdateNamespace.Merge(m, src)
+}
+func (m *MsgUpdateNamespace) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgUpdateNamespace) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgUpdateNamespace.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgUpdateNamespace proto.InternalMessageInfo
+
+func (m *MsgUpdateNamespace) GetCreator() string {
+	if m != nil {
+		return m.Creator
+	}
+	return ""
+}
+
+func (m *MsgUpdateNamespace) GetNamespace() string {
+	if m != nil {
+		return m.Namespace
+	}
+	return ""
+}
+
+func (m *MsgUpdateNamespace) GetCreationFee() types.Coin {
+	if m != nil {
+		return m.CreationFee
+	}
+	return types.Coin{}
+}
+
+// MsgUpdateNamespaceResponse defines the MsgUpdateNamespaceResponse message.
+type MsgUpdateNamespaceResponse struct {
+}
+
+func (m *MsgUpdateNamespaceResponse) Reset()         { *m = MsgUpdateNamespaceResponse{} }
+func (m *MsgUpdateNamespaceResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgUpdateNamespaceResponse) ProtoMessage()    {}
+func (*MsgUpdateNamespaceResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_300825f7998a018a, []int{15}
+}
+func (m *MsgUpdateNamespaceResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgUpdateNamespaceResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgUpdateNamespaceResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgUpdateNamespaceResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgUpdateNamespaceResponse.Merge(m, src)
+}
+func (m *MsgUpdateNamespaceResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgUpdateNamespaceResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgUpdateNamespaceResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgUpdateNamespaceResponse proto.InternalMessageInfo
+
+// MsgDeleteNamespace defines the MsgDeleteNamespace message.
+type MsgDeleteNamespace struct {
+	Creator   string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	Namespace string `protobuf:"bytes,2,opt,name=namespace,proto3" json:"namespace,omitempty"`
+}
+
+func (m *MsgDeleteNamespace) Reset()         { *m = MsgDeleteNamespace{} }
+func (m *MsgDeleteNamespace) String() string { return proto.CompactTextString(m) }
+func (*MsgDeleteNamespace) ProtoMessage()    {}
+func (*MsgDeleteNamespace) Descriptor() ([]byte, []int) {
+	return fileDescriptor_300825f7998a018a, []int{16}
+}
+func (m *MsgDeleteNamespace) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgDeleteNamespace) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgDeleteNamespace.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgDeleteNamespace) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgDeleteNamespace.Merge(m, src)
+}
+func (m *MsgDeleteNamespace) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgDeleteNamespace) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgDeleteNamespace.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgDeleteNamespace proto.InternalMessageInfo
+
+func (m *MsgDeleteNamespace) GetCreator() string {
+	if m != nil {
+		return m.Creator
+	}
+	return ""
+}
+
+func (m *MsgDeleteNamespace) GetNamespace() string {
+	if m != nil {
+		return m.Namespace
+	}
+	return ""
+}
+
+// MsgDeleteNamespaceResponse defines the MsgDeleteNamespaceResponse message.
+type MsgDeleteNamespaceResponse struct {
+}
+
+func (m *MsgDeleteNamespaceResponse) Reset()         { *m = MsgDeleteNamespaceResponse{} }
+func (m *MsgDeleteNamespaceResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgDeleteNamespaceResponse) ProtoMessage()    {}
+func (*MsgDeleteNamespaceResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_300825f7998a018a, []int{17}
+}
+func (m *MsgDeleteNamespaceResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgDeleteNamespaceResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgDeleteNamespaceResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgDeleteNamespaceResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgDeleteNamespaceResponse.Merge(m, src)
+}
+func (m *MsgDeleteNamespaceResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgDeleteNamespaceResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgDeleteNamespaceResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgDeleteNamespaceResponse proto.InternalMessageInfo
+
 func init() {
 	proto.RegisterType((*MsgUpdateParams)(nil), "spider.tokenfactory.v1.MsgUpdateParams")
 	proto.RegisterType((*MsgUpdateParamsResponse)(nil), "spider.tokenfactory.v1.MsgUpdateParamsResponse")
@@ -700,59 +987,72 @@ func init() {
 	proto.RegisterType((*MsgMintAndSendResponse)(nil), "spider.tokenfactory.v1.MsgMintAndSendResponse")
 	proto.RegisterType((*MsgUpdateOwner)(nil), "spider.tokenfactory.v1.MsgUpdateOwner")
 	proto.RegisterType((*MsgUpdateOwnerResponse)(nil), "spider.tokenfactory.v1.MsgUpdateOwnerResponse")
+	proto.RegisterType((*MsgCreateNamespace)(nil), "spider.tokenfactory.v1.MsgCreateNamespace")
+	proto.RegisterType((*MsgCreateNamespaceResponse)(nil), "spider.tokenfactory.v1.MsgCreateNamespaceResponse")
+	proto.RegisterType((*MsgUpdateNamespace)(nil), "spider.tokenfactory.v1.MsgUpdateNamespace")
+	proto.RegisterType((*MsgUpdateNamespaceResponse)(nil), "spider.tokenfactory.v1.MsgUpdateNamespaceResponse")
+	proto.RegisterType((*MsgDeleteNamespace)(nil), "spider.tokenfactory.v1.MsgDeleteNamespace")
+	proto.RegisterType((*MsgDeleteNamespaceResponse)(nil), "spider.tokenfactory.v1.MsgDeleteNamespaceResponse")
 }
 
 func init() { proto.RegisterFile("spider/tokenfactory/v1/tx.proto", fileDescriptor_300825f7998a018a) }
 
 var fileDescriptor_300825f7998a018a = []byte{
-	// 741 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xbc, 0x55, 0x3f, 0x6f, 0xd3, 0x40,
-	0x14, 0x8f, 0x9b, 0x3f, 0x34, 0x97, 0x8a, 0x3f, 0xa7, 0x92, 0xba, 0x29, 0xb8, 0x51, 0x10, 0x25,
-	0xaa, 0x84, 0xad, 0x14, 0x81, 0x50, 0xb7, 0xa6, 0x15, 0x5b, 0x04, 0x72, 0xc5, 0xc2, 0x12, 0x5d,
-	0xec, 0xab, 0x6b, 0xb5, 0xbe, 0xb3, 0x7c, 0x97, 0x36, 0x99, 0x40, 0x8c, 0x4c, 0x88, 0x89, 0x8f,
-	0xc0, 0xd8, 0x81, 0xcf, 0x80, 0x3a, 0x56, 0x4c, 0x4c, 0x08, 0xa5, 0x43, 0xf9, 0x18, 0xc8, 0x77,
-	0xd7, 0xc4, 0xa9, 0x9c, 0x26, 0x43, 0xc5, 0x12, 0xe5, 0xbd, 0xf7, 0x7b, 0xf7, 0x7b, 0xef, 0xf7,
-	0x9e, 0xef, 0xc0, 0x2a, 0x0b, 0x7d, 0x17, 0x47, 0x16, 0xa7, 0x07, 0x98, 0xec, 0x21, 0x87, 0xd3,
-	0xa8, 0x6f, 0x1d, 0x35, 0x2c, 0xde, 0x33, 0xc3, 0x88, 0x72, 0x0a, 0xcb, 0x12, 0x60, 0x26, 0x01,
-	0xe6, 0x51, 0xa3, 0x72, 0x0f, 0x05, 0x3e, 0xa1, 0x96, 0xf8, 0x95, 0xd0, 0x8a, 0xe1, 0x50, 0x16,
-	0x50, 0x66, 0x75, 0x10, 0xc3, 0xd6, 0x51, 0xa3, 0x83, 0x39, 0x6a, 0x58, 0x0e, 0xf5, 0x89, 0x8a,
-	0x2f, 0xa9, 0x78, 0xc0, 0xbc, 0x98, 0x22, 0x60, 0x9e, 0x0a, 0x2c, 0xcb, 0x40, 0x5b, 0x58, 0x96,
-	0x34, 0x54, 0x68, 0xd1, 0xa3, 0x1e, 0x95, 0xfe, 0xf8, 0x9f, 0xf2, 0x3e, 0x9a, 0x50, 0x75, 0x88,
-	0x22, 0x14, 0xa8, 0xd4, 0xda, 0x0f, 0x0d, 0xdc, 0x69, 0x31, 0xef, 0x6d, 0xe8, 0x22, 0x8e, 0xdf,
-	0x88, 0x08, 0x7c, 0x01, 0x8a, 0xa8, 0xcb, 0xf7, 0x69, 0xe4, 0xf3, 0xbe, 0xae, 0x55, 0xb5, 0x7a,
-	0xb1, 0xa9, 0xff, 0xfc, 0xfe, 0x74, 0x51, 0x71, 0x6e, 0xb9, 0x6e, 0x84, 0x19, 0xdb, 0xe5, 0x91,
-	0x4f, 0x3c, 0x7b, 0x04, 0x85, 0x5b, 0xa0, 0x20, 0xcf, 0xd6, 0xe7, 0xaa, 0x5a, 0xbd, 0xb4, 0x61,
-	0x98, 0xe9, 0xb2, 0x98, 0x92, 0xa7, 0x59, 0x3c, 0xfd, 0xbd, 0x9a, 0xf9, 0x76, 0x71, 0xb2, 0xae,
-	0xd9, 0x2a, 0x71, 0xf3, 0xe5, 0xc7, 0x8b, 0x93, 0xf5, 0xd1, 0x91, 0x9f, 0x2e, 0x4e, 0xd6, 0x1f,
-	0xab, 0x36, 0x7a, 0xe3, 0x8d, 0x5c, 0x29, 0xba, 0xb6, 0x0c, 0x96, 0xae, 0xb8, 0x6c, 0xcc, 0x42,
-	0x4a, 0x18, 0xae, 0x0d, 0xe6, 0xc0, 0xed, 0x16, 0xf3, 0xb6, 0x23, 0x8c, 0x38, 0xde, 0xc1, 0x84,
-	0x06, 0xd0, 0x04, 0x79, 0x7a, 0x4c, 0x70, 0x34, 0xb5, 0x3d, 0x09, 0x83, 0x8b, 0x20, 0xef, 0xc6,
-	0x89, 0xa2, 0xb3, 0xa2, 0x2d, 0x0d, 0x58, 0x05, 0x25, 0x17, 0x33, 0x27, 0xf2, 0x43, 0xee, 0x53,
-	0xa2, 0x67, 0x45, 0x2c, 0xe9, 0x82, 0x65, 0x50, 0xe0, 0xbe, 0x73, 0x80, 0x23, 0x3d, 0x27, 0x82,
-	0xca, 0x82, 0x0f, 0x40, 0x31, 0x8c, 0xb0, 0xe3, 0xb3, 0x38, 0x2f, 0x5f, 0xd5, 0xea, 0x59, 0x7b,
-	0xe4, 0x80, 0x77, 0x41, 0xb6, 0x1b, 0x1d, 0xea, 0x05, 0x91, 0x12, 0xff, 0x85, 0x0f, 0x01, 0x08,
-	0x50, 0xaf, 0xcd, 0xba, 0x61, 0x78, 0xd8, 0xd7, 0x6f, 0xc9, 0x84, 0x00, 0xf5, 0x76, 0x85, 0x03,
-	0x36, 0xc0, 0x7d, 0x07, 0x91, 0xb6, 0xb3, 0x8f, 0x88, 0x87, 0xdb, 0x09, 0xe4, 0x7c, 0x55, 0xab,
-	0xcf, 0xdb, 0xd0, 0x41, 0x64, 0x5b, 0xc4, 0x5a, 0xc3, 0x94, 0x26, 0x58, 0x70, 0x62, 0x41, 0x7c,
-	0x4a, 0xda, 0x7b, 0x18, 0xeb, 0x45, 0x31, 0xb2, 0x65, 0x53, 0xa9, 0x10, 0xaf, 0xa7, 0xa9, 0xd6,
-	0xd3, 0xdc, 0xa6, 0x3e, 0x69, 0xe6, 0xe2, 0x69, 0xd9, 0xa5, 0xcb, 0xa4, 0x57, 0x18, 0x6f, 0x82,
-	0x78, 0x5a, 0x52, 0xa1, 0x9a, 0x0e, 0xca, 0xe3, 0x1a, 0x0f, 0xe5, 0xff, 0xab, 0x09, 0xf9, 0xe5,
-	0x68, 0xfe, 0xaf, 0xfc, 0x4a, 0xc8, 0xdc, 0x24, 0x21, 0xf3, 0x33, 0x0b, 0x59, 0x98, 0x24, 0x64,
-	0x8a, 0x08, 0x89, 0x4e, 0x87, 0x22, 0x74, 0x84, 0x06, 0x3b, 0xf8, 0x10, 0xdf, 0xa8, 0x06, 0x29,
-	0xec, 0x09, 0x8e, 0x21, 0xfb, 0x57, 0x39, 0x82, 0x96, 0x4f, 0xf8, 0x16, 0x71, 0x77, 0x31, 0x71,
-	0x6f, 0x68, 0x04, 0x65, 0x50, 0x40, 0x01, 0xed, 0x12, 0x2e, 0xd4, 0xcf, 0xda, 0xca, 0x8a, 0xf7,
-	0x3b, 0xde, 0xe6, 0xd0, 0xc7, 0x84, 0x2b, 0xf9, 0x47, 0x8e, 0x94, 0xa2, 0x13, 0x95, 0x0d, 0x8b,
-	0x7e, 0x9f, 0x58, 0x9b, 0xd7, 0xa2, 0x86, 0x9b, 0xa9, 0x79, 0x05, 0x14, 0x09, 0x3e, 0x6e, 0xcb,
-	0x93, 0xe4, 0xd2, 0xcc, 0x13, 0x7c, 0x2c, 0x28, 0x26, 0x4e, 0x53, 0x44, 0x2f, 0x4b, 0xdb, 0xf8,
-	0x92, 0x03, 0xd9, 0x16, 0xf3, 0xe0, 0x3e, 0x58, 0x18, 0xbb, 0x39, 0x9f, 0x4c, 0xba, 0xf1, 0xae,
-	0x5c, 0x4d, 0x15, 0x6b, 0x46, 0xe0, 0x25, 0x23, 0xc4, 0xa0, 0x94, 0xbc, 0xbf, 0xd6, 0xae, 0xc9,
-	0x4f, 0xe0, 0x2a, 0xe6, 0x6c, 0xb8, 0x24, 0x4d, 0xf2, 0x3b, 0x5d, 0x9b, 0x5a, 0xe6, 0x74, 0x9a,
-	0x94, 0xaf, 0x21, 0xa6, 0x49, 0xee, 0xe2, 0x75, 0x34, 0x09, 0xdc, 0xb5, 0x34, 0x29, 0x1b, 0x34,
-	0xea, 0x46, 0xae, 0xcf, 0xf4, 0x6e, 0x04, 0x6e, 0x86, 0x6e, 0xc6, 0xb6, 0xa1, 0x92, 0xff, 0x10,
-	0xbf, 0x61, 0xcd, 0xe7, 0xa7, 0x03, 0x43, 0x3b, 0x1b, 0x18, 0xda, 0x9f, 0x81, 0xa1, 0x7d, 0x3e,
-	0x37, 0x32, 0x67, 0xe7, 0x46, 0xe6, 0xd7, 0xb9, 0x91, 0x79, 0xb7, 0x92, 0xfe, 0x84, 0xf1, 0x7e,
-	0x88, 0x59, 0xa7, 0x20, 0x1e, 0xe2, 0x67, 0xff, 0x02, 0x00, 0x00, 0xff, 0xff, 0xcd, 0x17, 0x6a,
-	0xdc, 0x65, 0x08, 0x00, 0x00,
+	// 864 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xd4, 0x56, 0x3b, 0x8f, 0xe3, 0x44,
+	0x1c, 0x8f, 0x2f, 0x9b, 0xdc, 0x66, 0xb2, 0xe2, 0x60, 0xb4, 0xe4, 0xbc, 0xb9, 0xc3, 0x17, 0x05,
+	0x71, 0x44, 0x91, 0xb0, 0x95, 0x20, 0x10, 0xba, 0x6e, 0xb3, 0x27, 0xba, 0x00, 0xf2, 0x8a, 0x86,
+	0x26, 0x9a, 0xd8, 0x73, 0x5e, 0xeb, 0xd6, 0x33, 0xc6, 0x33, 0xd9, 0x4d, 0x2a, 0x10, 0x25, 0x15,
+	0x25, 0x1f, 0x81, 0x72, 0x0b, 0x0a, 0x3e, 0x01, 0xba, 0xf2, 0x44, 0x45, 0x85, 0x50, 0xb6, 0x58,
+	0x24, 0xbe, 0x04, 0x9a, 0x47, 0x1c, 0xc7, 0xe7, 0x3c, 0x84, 0x16, 0xa4, 0x6b, 0xa2, 0xcc, 0xff,
+	0xe1, 0xdf, 0x63, 0xe6, 0x3f, 0x36, 0x78, 0xc4, 0xe2, 0xd0, 0xc7, 0x89, 0xc3, 0xe9, 0x73, 0x4c,
+	0x9e, 0x21, 0x8f, 0xd3, 0x64, 0xe6, 0x5c, 0xf4, 0x1c, 0x3e, 0xb5, 0xe3, 0x84, 0x72, 0x0a, 0x1b,
+	0xaa, 0xc0, 0xce, 0x16, 0xd8, 0x17, 0xbd, 0xe6, 0x5b, 0x28, 0x0a, 0x09, 0x75, 0xe4, 0xaf, 0x2a,
+	0x6d, 0x5a, 0x1e, 0x65, 0x11, 0x65, 0xce, 0x18, 0x31, 0xec, 0x5c, 0xf4, 0xc6, 0x98, 0xa3, 0x9e,
+	0xe3, 0xd1, 0x90, 0xe8, 0xfc, 0x7d, 0x9d, 0x8f, 0x58, 0x20, 0x20, 0x22, 0x16, 0xe8, 0xc4, 0x91,
+	0x4a, 0x8c, 0xe4, 0xca, 0x51, 0x0b, 0x9d, 0x3a, 0x0c, 0x68, 0x40, 0x55, 0x5c, 0xfc, 0xd3, 0xd1,
+	0x77, 0xd7, 0xb0, 0x8e, 0x51, 0x82, 0x22, 0xdd, 0xda, 0xfe, 0xd5, 0x00, 0xf7, 0x86, 0x2c, 0xf8,
+	0x32, 0xf6, 0x11, 0xc7, 0x5f, 0xc8, 0x0c, 0xfc, 0x18, 0xd4, 0xd0, 0x84, 0x9f, 0xd1, 0x24, 0xe4,
+	0x33, 0xd3, 0x68, 0x19, 0x9d, 0xda, 0xc0, 0xfc, 0xed, 0xe7, 0x0f, 0x0e, 0x35, 0xe6, 0xb1, 0xef,
+	0x27, 0x98, 0xb1, 0x53, 0x9e, 0x84, 0x24, 0x70, 0x97, 0xa5, 0xf0, 0x18, 0x54, 0xd5, 0xb3, 0xcd,
+	0x3b, 0x2d, 0xa3, 0x53, 0xef, 0x5b, 0x76, 0xb1, 0x2d, 0xb6, 0xc2, 0x19, 0xd4, 0x5e, 0xfc, 0xf1,
+	0xa8, 0xf4, 0xd3, 0xcd, 0x55, 0xd7, 0x70, 0x75, 0xe3, 0x93, 0x4f, 0xbe, 0xbb, 0xb9, 0xea, 0x2e,
+	0x1f, 0xf9, 0xfd, 0xcd, 0x55, 0xf7, 0x3d, 0x2d, 0x63, 0xba, 0x2a, 0x24, 0x47, 0xba, 0x7d, 0x04,
+	0xee, 0xe7, 0x42, 0x2e, 0x66, 0x31, 0x25, 0x0c, 0xb7, 0xe7, 0x77, 0xc0, 0x1b, 0x43, 0x16, 0x9c,
+	0x24, 0x18, 0x71, 0xfc, 0x14, 0x13, 0x1a, 0x41, 0x1b, 0x54, 0xe8, 0x25, 0xc1, 0xc9, 0x56, 0x79,
+	0xaa, 0x0c, 0x1e, 0x82, 0x8a, 0x2f, 0x1a, 0xa5, 0xb2, 0x9a, 0xab, 0x16, 0xb0, 0x05, 0xea, 0x3e,
+	0x66, 0x5e, 0x12, 0xc6, 0x3c, 0xa4, 0xc4, 0x2c, 0xcb, 0x5c, 0x36, 0x04, 0x1b, 0xa0, 0xca, 0x43,
+	0xef, 0x39, 0x4e, 0xcc, 0x3d, 0x99, 0xd4, 0x2b, 0xf8, 0x10, 0xd4, 0xe2, 0x04, 0x7b, 0x21, 0x13,
+	0x7d, 0x95, 0x96, 0xd1, 0x29, 0xbb, 0xcb, 0x00, 0x7c, 0x13, 0x94, 0x27, 0xc9, 0xb9, 0x59, 0x95,
+	0x2d, 0xe2, 0x2f, 0x7c, 0x07, 0x80, 0x08, 0x4d, 0x47, 0x6c, 0x12, 0xc7, 0xe7, 0x33, 0xf3, 0xae,
+	0x6a, 0x88, 0xd0, 0xf4, 0x54, 0x06, 0x60, 0x0f, 0xbc, 0xed, 0x21, 0x32, 0xf2, 0xce, 0x10, 0x09,
+	0xf0, 0x28, 0x53, 0xb9, 0xdf, 0x32, 0x3a, 0xfb, 0x2e, 0xf4, 0x10, 0x39, 0x91, 0xb9, 0x61, 0xda,
+	0x32, 0x00, 0x07, 0x9e, 0x30, 0x24, 0xa4, 0x64, 0xf4, 0x0c, 0x63, 0xb3, 0x26, 0xb7, 0xec, 0xc8,
+	0xd6, 0x2e, 0x88, 0xe3, 0x69, 0xeb, 0xe3, 0x69, 0x9f, 0xd0, 0x90, 0x0c, 0xf6, 0xc4, 0x6e, 0xb9,
+	0xf5, 0x45, 0xd3, 0xa7, 0x18, 0x3f, 0x01, 0x62, 0xb7, 0x94, 0x43, 0x6d, 0x13, 0x34, 0x56, 0x3d,
+	0x4e, 0xed, 0xff, 0xcb, 0x90, 0xf6, 0xab, 0xad, 0xf9, 0x7f, 0xed, 0xd7, 0x46, 0xee, 0xad, 0x33,
+	0xb2, 0xb2, 0xb3, 0x91, 0xd5, 0x75, 0x46, 0x16, 0x98, 0x90, 0x51, 0x9a, 0x9a, 0x30, 0x96, 0x1e,
+	0x3c, 0xc5, 0xe7, 0xf8, 0x56, 0x3d, 0x28, 0x40, 0xcf, 0x60, 0xa4, 0xe8, 0x3f, 0xaa, 0x2d, 0x18,
+	0x86, 0x84, 0x1f, 0x13, 0xff, 0x14, 0x13, 0xff, 0x96, 0xb6, 0xa0, 0x01, 0xaa, 0x28, 0xa2, 0x13,
+	0xc2, 0xa5, 0xfb, 0x65, 0x57, 0xaf, 0xc4, 0xf9, 0x16, 0xa7, 0x39, 0x0e, 0x31, 0xe1, 0xda, 0xfe,
+	0x65, 0xa0, 0x80, 0x74, 0x86, 0x59, 0x4a, 0xfa, 0x9b, 0xcc, 0xb1, 0xf9, 0x5c, 0x72, 0xb8, 0x1d,
+	0xce, 0x0f, 0x40, 0x8d, 0xe0, 0xcb, 0x91, 0x7a, 0x92, 0x3a, 0x34, 0xfb, 0x04, 0x5f, 0x4a, 0x88,
+	0xb5, 0xbb, 0x29, 0xb3, 0x29, 0xb5, 0x5f, 0x0c, 0x00, 0xd3, 0xd3, 0xfe, 0x19, 0x8a, 0x30, 0x8b,
+	0x91, 0x87, 0x61, 0x1f, 0xdc, 0x95, 0xe3, 0x41, 0xb7, 0x33, 0x5c, 0x14, 0x0a, 0xa7, 0xc8, 0xe2,
+	0x01, 0x9a, 0xe7, 0x32, 0xf0, 0xca, 0x94, 0x96, 0xff, 0xc5, 0x94, 0x1e, 0x08, 0x49, 0x0b, 0xbc,
+	0xf6, 0x43, 0xd0, 0x7c, 0x95, 0x79, 0x5e, 0x98, 0xd2, 0xfc, 0x3a, 0x0a, 0xcb, 0x31, 0x4f, 0x85,
+	0x71, 0xa9, 0x4b, 0xcd, 0xc6, 0x7f, 0xa8, 0xab, 0x90, 0x53, 0x0e, 0x75, 0xc1, 0xa9, 0xff, 0x77,
+	0x15, 0x94, 0x87, 0x2c, 0x80, 0x67, 0xe0, 0x60, 0xe5, 0xfd, 0xfb, 0xfe, 0xba, 0xf7, 0x66, 0xee,
+	0x05, 0xd7, 0x74, 0x76, 0x2c, 0x5c, 0x20, 0x42, 0x0c, 0xea, 0xd9, 0xb7, 0xe0, 0xe3, 0x0d, 0xfd,
+	0x99, 0xba, 0xa6, 0xbd, 0x5b, 0x5d, 0x16, 0x26, 0x7b, 0xdb, 0x3f, 0xde, 0x4a, 0x73, 0x3b, 0x4c,
+	0xc1, 0x9d, 0x2a, 0x60, 0xb2, 0x37, 0xda, 0x26, 0x98, 0x4c, 0xdd, 0x46, 0x98, 0x82, 0x7b, 0x68,
+	0xa9, 0x46, 0x5d, 0x42, 0xdb, 0xd5, 0xc8, 0xba, 0x1d, 0xd4, 0xac, 0xdc, 0x29, 0xf0, 0x6b, 0x70,
+	0x2f, 0x7f, 0x9f, 0x74, 0xb7, 0xfa, 0x9e, 0xd6, 0x36, 0xfb, 0xbb, 0xd7, 0x66, 0x21, 0xf3, 0x93,
+	0xde, 0xdd, 0xca, 0x7a, 0x37, 0xc8, 0x35, 0x73, 0x28, 0x20, 0xf3, 0x43, 0xb8, 0x09, 0x32, 0x57,
+	0xbb, 0x11, 0x72, 0xcd, 0x98, 0x35, 0x2b, 0xdf, 0x8a, 0x4f, 0xcc, 0xc1, 0x47, 0x2f, 0xe6, 0x96,
+	0xf1, 0x72, 0x6e, 0x19, 0x7f, 0xce, 0x2d, 0xe3, 0x87, 0x6b, 0xab, 0xf4, 0xf2, 0xda, 0x2a, 0xfd,
+	0x7e, 0x6d, 0x95, 0xbe, 0x7a, 0x50, 0xfc, 0x85, 0xc9, 0x67, 0x31, 0x66, 0xe3, 0xaa, 0xfc, 0x4e,
+	0xfe, 0xf0, 0x9f, 0x00, 0x00, 0x00, 0xff, 0xff, 0x04, 0xd8, 0xf7, 0x9a, 0x04, 0x0c, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -778,6 +1078,12 @@ type MsgClient interface {
 	MintAndSend(ctx context.Context, in *MsgMintAndSend, opts ...grpc.CallOption) (*MsgMintAndSendResponse, error)
 	// UpdateOwner defines the UpdateOwner RPC.
 	UpdateOwner(ctx context.Context, in *MsgUpdateOwner, opts ...grpc.CallOption) (*MsgUpdateOwnerResponse, error)
+	// CreateNamespace defines the CreateNamespace RPC.
+	CreateNamespace(ctx context.Context, in *MsgCreateNamespace, opts ...grpc.CallOption) (*MsgCreateNamespaceResponse, error)
+	// UpdateNamespace defines the UpdateNamespace RPC.
+	UpdateNamespace(ctx context.Context, in *MsgUpdateNamespace, opts ...grpc.CallOption) (*MsgUpdateNamespaceResponse, error)
+	// DeleteNamespace defines the DeleteNamespace RPC.
+	DeleteNamespace(ctx context.Context, in *MsgDeleteNamespace, opts ...grpc.CallOption) (*MsgDeleteNamespaceResponse, error)
 }
 
 type msgClient struct {
@@ -833,6 +1139,33 @@ func (c *msgClient) UpdateOwner(ctx context.Context, in *MsgUpdateOwner, opts ..
 	return out, nil
 }
 
+func (c *msgClient) CreateNamespace(ctx context.Context, in *MsgCreateNamespace, opts ...grpc.CallOption) (*MsgCreateNamespaceResponse, error) {
+	out := new(MsgCreateNamespaceResponse)
+	err := c.cc.Invoke(ctx, "/spider.tokenfactory.v1.Msg/CreateNamespace", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) UpdateNamespace(ctx context.Context, in *MsgUpdateNamespace, opts ...grpc.CallOption) (*MsgUpdateNamespaceResponse, error) {
+	out := new(MsgUpdateNamespaceResponse)
+	err := c.cc.Invoke(ctx, "/spider.tokenfactory.v1.Msg/UpdateNamespace", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) DeleteNamespace(ctx context.Context, in *MsgDeleteNamespace, opts ...grpc.CallOption) (*MsgDeleteNamespaceResponse, error) {
+	out := new(MsgDeleteNamespaceResponse)
+	err := c.cc.Invoke(ctx, "/spider.tokenfactory.v1.Msg/DeleteNamespace", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
 	// UpdateParams defines a (governance) operation for updating the module
@@ -846,6 +1179,12 @@ type MsgServer interface {
 	MintAndSend(context.Context, *MsgMintAndSend) (*MsgMintAndSendResponse, error)
 	// UpdateOwner defines the UpdateOwner RPC.
 	UpdateOwner(context.Context, *MsgUpdateOwner) (*MsgUpdateOwnerResponse, error)
+	// CreateNamespace defines the CreateNamespace RPC.
+	CreateNamespace(context.Context, *MsgCreateNamespace) (*MsgCreateNamespaceResponse, error)
+	// UpdateNamespace defines the UpdateNamespace RPC.
+	UpdateNamespace(context.Context, *MsgUpdateNamespace) (*MsgUpdateNamespaceResponse, error)
+	// DeleteNamespace defines the DeleteNamespace RPC.
+	DeleteNamespace(context.Context, *MsgDeleteNamespace) (*MsgDeleteNamespaceResponse, error)
 }
 
 // UnimplementedMsgServer can be embedded to have forward compatible implementations.
@@ -866,6 +1205,15 @@ func (*UnimplementedMsgServer) MintAndSend(ctx context.Context, req *MsgMintAndS
 }
 func (*UnimplementedMsgServer) UpdateOwner(ctx context.Context, req *MsgUpdateOwner) (*MsgUpdateOwnerResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateOwner not implemented")
+}
+func (*UnimplementedMsgServer) CreateNamespace(ctx context.Context, req *MsgCreateNamespace) (*MsgCreateNamespaceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateNamespace not implemented")
+}
+func (*UnimplementedMsgServer) UpdateNamespace(ctx context.Context, req *MsgUpdateNamespace) (*MsgUpdateNamespaceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateNamespace not implemented")
+}
+func (*UnimplementedMsgServer) DeleteNamespace(ctx context.Context, req *MsgDeleteNamespace) (*MsgDeleteNamespaceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteNamespace not implemented")
 }
 
 func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
@@ -962,6 +1310,60 @@ func _Msg_UpdateOwner_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_CreateNamespace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgCreateNamespace)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).CreateNamespace(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/spider.tokenfactory.v1.Msg/CreateNamespace",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).CreateNamespace(ctx, req.(*MsgCreateNamespace))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_UpdateNamespace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgUpdateNamespace)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).UpdateNamespace(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/spider.tokenfactory.v1.Msg/UpdateNamespace",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).UpdateNamespace(ctx, req.(*MsgUpdateNamespace))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_DeleteNamespace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgDeleteNamespace)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).DeleteNamespace(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/spider.tokenfactory.v1.Msg/DeleteNamespace",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).DeleteNamespace(ctx, req.(*MsgDeleteNamespace))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var Msg_serviceDesc = _Msg_serviceDesc
 var _Msg_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "spider.tokenfactory.v1.Msg",
@@ -986,6 +1388,18 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateOwner",
 			Handler:    _Msg_UpdateOwner_Handler,
+		},
+		{
+			MethodName: "CreateNamespace",
+			Handler:    _Msg_CreateNamespace_Handler,
+		},
+		{
+			MethodName: "UpdateNamespace",
+			Handler:    _Msg_UpdateNamespace_Handler,
+		},
+		{
+			MethodName: "DeleteNamespace",
+			Handler:    _Msg_DeleteNamespace_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -1454,6 +1868,206 @@ func (m *MsgUpdateOwnerResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) 
 	return len(dAtA) - i, nil
 }
 
+func (m *MsgCreateNamespace) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgCreateNamespace) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgCreateNamespace) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	{
+		size, err := m.CreationFee.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintTx(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0x1a
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Namespace)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgCreateNamespaceResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgCreateNamespaceResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgCreateNamespaceResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgUpdateNamespace) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgUpdateNamespace) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgUpdateNamespace) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	{
+		size, err := m.CreationFee.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintTx(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0x1a
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Namespace)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgUpdateNamespaceResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgUpdateNamespaceResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgUpdateNamespaceResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgDeleteNamespace) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgDeleteNamespace) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgDeleteNamespace) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Namespace)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgDeleteNamespaceResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgDeleteNamespaceResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgDeleteNamespaceResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintTx(dAtA []byte, offset int, v uint64) int {
 	offset -= sovTx(v)
 	base := offset
@@ -1659,6 +2273,88 @@ func (m *MsgUpdateOwner) Size() (n int) {
 }
 
 func (m *MsgUpdateOwnerResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *MsgCreateNamespace) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.Namespace)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = m.CreationFee.Size()
+	n += 1 + l + sovTx(uint64(l))
+	return n
+}
+
+func (m *MsgCreateNamespaceResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *MsgUpdateNamespace) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.Namespace)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = m.CreationFee.Size()
+	n += 1 + l + sovTx(uint64(l))
+	return n
+}
+
+func (m *MsgUpdateNamespaceResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *MsgDeleteNamespace) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.Namespace)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgDeleteNamespaceResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -3008,6 +3704,564 @@ func (m *MsgUpdateOwnerResponse) Unmarshal(dAtA []byte) error {
 		}
 		if fieldNum <= 0 {
 			return fmt.Errorf("proto: MsgUpdateOwnerResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgCreateNamespace) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgCreateNamespace: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgCreateNamespace: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Namespace = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field CreationFee", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.CreationFee.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgCreateNamespaceResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgCreateNamespaceResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgCreateNamespaceResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgUpdateNamespace) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgUpdateNamespace: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgUpdateNamespace: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Namespace = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field CreationFee", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.CreationFee.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgUpdateNamespaceResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgUpdateNamespaceResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgUpdateNamespaceResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgDeleteNamespace) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgDeleteNamespace: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgDeleteNamespace: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Namespace = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgDeleteNamespaceResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgDeleteNamespaceResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgDeleteNamespaceResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:

@@ -4,9 +4,11 @@ package spider.tokenfactory.v1;
 
 import "amino/amino.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
+import "cosmos/base/v1beta1/coin.proto";
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "spider/tokenfactory/v1/denom.proto";
+import "spider/tokenfactory/v1/namespace.proto";
 import "spider/tokenfactory/v1/params.proto";
 
 option go_package = "spider/x/tokenfactory/types";
@@ -26,6 +28,16 @@ service Query {
   // ListDenom defines the ListDenom RPC.
   rpc ListDenom(QueryAllDenomRequest) returns (QueryAllDenomResponse) {
     option (google.api.http).get = "/spider/tokenfactory/v1/denom";
+  }
+
+  // ListNamespace Queries a list of Namespace items.
+  rpc GetNamespace(QueryGetNamespaceRequest) returns (QueryGetNamespaceResponse) {
+    option (google.api.http).get = "/spider/tokenfactory/v1/namespace/{namespace}";
+  }
+
+  // ListNamespace defines the ListNamespace RPC.
+  rpc ListNamespace(QueryAllNamespaceRequest) returns (QueryAllNamespaceResponse) {
+    option (google.api.http).get = "/spider/tokenfactory/v1/namespace";
   }
 }
 
@@ -59,5 +71,26 @@ message QueryAllDenomRequest {
 // QueryAllDenomResponse defines the QueryAllDenomResponse message.
 message QueryAllDenomResponse {
   repeated Denom denom = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// QueryGetNamespaceRequest defines the QueryGetNamespaceRequest message.
+message QueryGetNamespaceRequest {
+  string namespace = 1;
+}
+
+// QueryGetNamespaceResponse defines the QueryGetNamespaceResponse message.
+message QueryGetNamespaceResponse {
+  Namespace namespace = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryAllNamespaceRequest defines the QueryAllNamespaceRequest message.
+message QueryAllNamespaceRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+// QueryAllNamespaceResponse defines the QueryAllNamespaceResponse message.
+message QueryAllNamespaceResponse {
+  repeated Namespace namespace = 1 [(gogoproto.nullable) = false];
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }

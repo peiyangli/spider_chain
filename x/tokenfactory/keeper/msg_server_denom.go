@@ -17,7 +17,17 @@ import (
 
 const (
 	PermCreate = 0x0001
+
+	NamespaceSeparator = '/'
 )
+
+func get_namespace(name string) string {
+	pos := strings.IndexByte(name, NamespaceSeparator)
+	if pos < 1 {
+		return ""
+	}
+	return name[:pos]
+}
 
 func (k msgServer) CreateDenom(ctx context.Context, msg *types.MsgCreateDenom) (*types.MsgCreateDenomResponse, error) {
 	creatorAddr, err := k.addressCodec.StringToBytes(msg.Owner)
@@ -31,6 +41,32 @@ func (k msgServer) CreateDenom(ctx context.Context, msg *types.MsgCreateDenom) (
 		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, fmt.Sprintf("no bond-denom:  %s", sdk.DefaultBondDenom))
 	}
 
+	nskey := get_namespace(msg.Denom)
+	var fees []sdk.Coin
+	if len(nskey) > 0 {
+		//todo check
+		ns, err := k.Namespace.Get(ctx, nskey)
+		if err != nil {
+			return nil, errorsmod.Wrap(sdkerrors.ErrLogic, err.Error())
+		}
+		if !ns.CreationFee.IsPositive() {
+			return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "not opening for create")
+		}
+		if msg.CreationFee.IsLT(ns.CreationFee) {
+			return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, fmt.Sprintf("need creation-fee: %v", ns.CreationFee))
+		}
+
+		fees = []sdk.Coin{ns.CreationFee}
+	} else {
+		operator, err := k.officialKeeper.GetOperator(ctx, msg.Owner, types.ModuleName)
+		if err != nil {
+			return nil, errorsmod.Wrap(sdkerrors.ErrLogic, err.Error())
+		}
+		if PermCreate&operator.GetPermissions() == 0 {
+			return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "no perm")
+		}
+	}
+
 	//check coin type
 	var coin = sdk.Coin{
 		Denom:  msg.Denom,
@@ -41,31 +77,7 @@ func (k msgServer) CreateDenom(ctx context.Context, msg *types.MsgCreateDenom) (
 		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidAddress, fmt.Sprintf("not a coin type: %s", err))
 	}
 
-	if !strings.HasPrefix(msg.Denom, "tf/") {
-		// 顶级 denom 需要治理权限
-		govAddr := k.authKeeper.GetModuleAddress(types.GovModuleName)
-		if msg.Owner != govAddr.String() {
-			//only operator can create uid->pub
-			operator, err := k.officialKeeper.GetOperator(ctx, msg.Owner, types.ModuleName)
-			if err != nil {
-				return nil, errorsmod.Wrap(sdkerrors.ErrLogic, err.Error())
-			}
-			if PermCreate&operator.GetPermissions() == 0 {
-				return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "no perm")
-			}
-		}
-	}
-
-	//check params
-	params, err := k.Params.Get(ctx)
-	if err != nil {
-		return nil, errorsmod.Wrap(sdkerrors.ErrLogic, err.Error())
-	}
-	if params.CreationFee.IsPositive() {
-		var fees = []sdk.Coin{params.CreationFee}
-		if msg.CreationFee.IsLT(params.CreationFee) {
-			return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, fmt.Sprintf("need creation-fee: %v", params.CreationFee))
-		}
+	if len(fees) > 0 {
 		if err := k.bankKeeper.SendCoinsFromAccountToModule(ctx, creatorAddr, types.ModuleName, fees); err != nil {
 			return nil, errorsmod.Wrap(err, "failed to pay")
 		}

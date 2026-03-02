@@ -24,6 +24,10 @@ func (AppModule) GenerateGenesisState(simState *module.SimulationState) {
 			Denom: "0",
 		}, {Owner: sample.AccAddress(),
 			Denom: "1",
+		}}, NamespaceMap: []types.Namespace{{Creator: sample.AccAddress(),
+			Namespace: "0",
+		}, {Creator: sample.AccAddress(),
+			Namespace: "1",
 		}}}
 	simState.GenState[types.ModuleName] = simState.Cdc.MustMarshalJSON(&tokenfactoryGenesis)
 }
@@ -108,6 +112,51 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 	operations = append(operations, simulation.NewWeightedOperation(
 		weightMsgUpdateOwner,
 		tokenfactorysimulation.SimulateMsgUpdateOwner(am.authKeeper, am.bankKeeper, am.keeper, simState.TxConfig),
+	))
+	const (
+		opWeightMsgCreateNamespace          = "op_weight_msg_tokenfactory"
+		defaultWeightMsgCreateNamespace int = 100
+	)
+
+	var weightMsgCreateNamespace int
+	simState.AppParams.GetOrGenerate(opWeightMsgCreateNamespace, &weightMsgCreateNamespace, nil,
+		func(_ *rand.Rand) {
+			weightMsgCreateNamespace = defaultWeightMsgCreateNamespace
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgCreateNamespace,
+		tokenfactorysimulation.SimulateMsgCreateNamespace(am.authKeeper, am.bankKeeper, am.keeper, simState.TxConfig),
+	))
+	const (
+		opWeightMsgUpdateNamespace          = "op_weight_msg_tokenfactory"
+		defaultWeightMsgUpdateNamespace int = 100
+	)
+
+	var weightMsgUpdateNamespace int
+	simState.AppParams.GetOrGenerate(opWeightMsgUpdateNamespace, &weightMsgUpdateNamespace, nil,
+		func(_ *rand.Rand) {
+			weightMsgUpdateNamespace = defaultWeightMsgUpdateNamespace
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgUpdateNamespace,
+		tokenfactorysimulation.SimulateMsgUpdateNamespace(am.authKeeper, am.bankKeeper, am.keeper, simState.TxConfig),
+	))
+	const (
+		opWeightMsgDeleteNamespace          = "op_weight_msg_tokenfactory"
+		defaultWeightMsgDeleteNamespace int = 100
+	)
+
+	var weightMsgDeleteNamespace int
+	simState.AppParams.GetOrGenerate(opWeightMsgDeleteNamespace, &weightMsgDeleteNamespace, nil,
+		func(_ *rand.Rand) {
+			weightMsgDeleteNamespace = defaultWeightMsgDeleteNamespace
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgDeleteNamespace,
+		tokenfactorysimulation.SimulateMsgDeleteNamespace(am.authKeeper, am.bankKeeper, am.keeper, simState.TxConfig),
 	))
 
 	return operations

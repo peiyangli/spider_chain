@@ -29,6 +29,18 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Alias:          []string{"show-denom"},
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "denom"}},
 				},
+				{
+					RpcMethod: "ListNamespace",
+					Use:       "list-namespace",
+					Short:     "List all namespace",
+				},
+				{
+					RpcMethod:      "GetNamespace",
+					Use:            "get-namespace [id]",
+					Short:          "Gets a namespace",
+					Alias:          []string{"show-namespace"},
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "namespace"}},
+				},
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},
@@ -63,6 +75,24 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Use:            "update-owner [denom] [new-owner]",
 					Short:          "Send a UpdateOwner tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "denom"}, {ProtoField: "new_owner"}},
+				},
+				{
+					RpcMethod:      "CreateNamespace",
+					Use:            "create-namespace [namespace] [creation-fee]",
+					Short:          "Create a new namespace",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "namespace"}, {ProtoField: "creation_fee"}},
+				},
+				{
+					RpcMethod:      "UpdateNamespace",
+					Use:            "update-namespace [namespace] [creation-fee]",
+					Short:          "Update namespace",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "namespace"}, {ProtoField: "creation_fee"}},
+				},
+				{
+					RpcMethod:      "DeleteNamespace",
+					Use:            "delete-namespace [namespace]",
+					Short:          "Delete namespace",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "namespace"}},
 				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},

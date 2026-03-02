@@ -30,6 +30,15 @@ service Msg {
 
   // UpdateOwner defines the UpdateOwner RPC.
   rpc UpdateOwner(MsgUpdateOwner) returns (MsgUpdateOwnerResponse);
+
+  // CreateNamespace defines the CreateNamespace RPC.
+  rpc CreateNamespace(MsgCreateNamespace) returns (MsgCreateNamespaceResponse);
+
+  // UpdateNamespace defines the UpdateNamespace RPC.
+  rpc UpdateNamespace(MsgUpdateNamespace) returns (MsgUpdateNamespaceResponse);
+
+  // DeleteNamespace defines the DeleteNamespace RPC.
+  rpc DeleteNamespace(MsgDeleteNamespace) returns (MsgDeleteNamespaceResponse);
 }
 
 // MsgUpdateParams is the Msg/UpdateParams request type.
@@ -116,3 +125,35 @@ message MsgUpdateOwner {
 
 // MsgUpdateOwnerResponse defines the MsgUpdateOwnerResponse message.
 message MsgUpdateOwnerResponse {}
+
+// MsgCreateNamespace defines the MsgCreateNamespace message.
+message MsgCreateNamespace {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string namespace = 2;
+  cosmos.base.v1beta1.Coin creation_fee = 3 [(gogoproto.nullable) = false];
+}
+
+// MsgCreateNamespaceResponse defines the MsgCreateNamespaceResponse message.
+message MsgCreateNamespaceResponse {}
+
+// MsgUpdateNamespace defines the MsgUpdateNamespace message.
+message MsgUpdateNamespace {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string namespace = 2;
+  cosmos.base.v1beta1.Coin creation_fee = 3 [(gogoproto.nullable) = false];
+}
+
+// MsgUpdateNamespaceResponse defines the MsgUpdateNamespaceResponse message.
+message MsgUpdateNamespaceResponse {}
+
+// MsgDeleteNamespace defines the MsgDeleteNamespace message.
+message MsgDeleteNamespace {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string namespace = 2;
+}
+
+// MsgDeleteNamespaceResponse defines the MsgDeleteNamespaceResponse message.
+message MsgDeleteNamespaceResponse {}
