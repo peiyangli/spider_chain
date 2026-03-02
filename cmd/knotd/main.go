@@ -9,6 +9,7 @@ import (
 	identitytypes "spider/x/identity/types"
 	loantypes "spider/x/loan/types"
 	officialtypes "spider/x/official/types"
+	snfttypes "spider/x/snft/types"
 	tokenfactorytypes "spider/x/tokenfactory/types"
 
 	txv1beta1 "cosmossdk.io/api/cosmos/tx/v1beta1"
@@ -27,19 +28,39 @@ const (
 
 // ==============================
 // handlers
+
+// 创建管理员
 func MsgCreateOperator(ctx context.Context, evt *officialtypes.MsgCreateOperator) error {
 	log.Println(evt)
 	return nil
 }
+
+// 发行token
 func MsgCreateDenom(ctx context.Context, evt *tokenfactorytypes.MsgCreateDenom) error {
 	log.Println(evt)
 	return nil
 }
+
+// uid-pubkey
 func MsgCreateIdentity(ctx context.Context, evt *identitytypes.MsgCreateIdentity) error {
 	log.Println(evt)
 	return nil
 }
+
+// 抵押
 func MsgRequestLoan(ctx context.Context, evt *loantypes.MsgRequestLoan) error {
+	log.Println(evt)
+	return nil
+}
+
+// nft 名字空间
+func MsgCreateClassNamespace(ctx context.Context, evt *snfttypes.MsgCreateClassNamespace) error {
+	log.Println(evt)
+	return nil
+}
+
+// nft 创建class
+func MsgCreateClassOwner(ctx context.Context, evt *snfttypes.MsgCreateClassOwner) error {
 	log.Println(evt)
 	return nil
 }
@@ -47,10 +68,12 @@ func MsgRequestLoan(ctx context.Context, evt *loantypes.MsgRequestLoan) error {
 // ------------------------------
 
 func RegisterHandlers() {
-	knot.TxEventsRegister(knot.NewGenericHandler(MsgCreateDenom))
-	knot.TxEventsRegister(knot.NewGenericHandler(MsgRequestLoan))
-	knot.TxEventsRegister(knot.NewGenericHandler(MsgCreateIdentity))
 	knot.TxEventsRegister(knot.NewGenericHandler(MsgCreateOperator))
+	knot.TxEventsRegister(knot.NewGenericHandler(MsgCreateDenom))
+	knot.TxEventsRegister(knot.NewGenericHandler(MsgCreateIdentity))
+	knot.TxEventsRegister(knot.NewGenericHandler(MsgRequestLoan))
+	knot.TxEventsRegister(knot.NewGenericHandler(MsgCreateClassNamespace))
+	knot.TxEventsRegister(knot.NewGenericHandler(MsgCreateClassOwner))
 }
 
 // ==============================
