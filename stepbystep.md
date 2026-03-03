@@ -8,6 +8,11 @@ ignite scaffold chain spider_chain --address-prefix spider --no-module
 ignite chain serve
 ```
 
+
+### 多签流程
+参看[多签](mutisign.md)
+
+
 ## id绑定
 
 由官方分配uid，并绑定身份公钥与消息根公钥
@@ -154,6 +159,7 @@ ignite chain serve
 
 # 测试
 spiderd tx official create-operator $(spiderd keys show bob -a) tokenfactory bob 1 7 --from tom
+spiderd tx official create-operator $(spiderd keys show ms2of3 -a) tokenfactory ms2of3 1 7 --from tom
 # bob 创建成功， spiderd query official list-operator
 spiderd tx tokenfactory create-denom xc "xid coin" IGNITE 6 "xid.spider.com" 1000000000 true 100usc --from bob
 # alice创建失败

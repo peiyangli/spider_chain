@@ -58,6 +58,46 @@ class-id: 前缀.子id
 token发行模块，用户支付一定的usc发行自有货币
 
 
+```
+message Denom {
+  string denom = 1; //货币名称
+  string description = 2; //描述
+  string ticker = 3; //
+  int64 precision = 4; 
+  string url = 5; 
+  int64 max_supply = 6; //最大供应量
+  int64 supply = 7; //已供应量
+  bool can_change_max_supply = 8;
+  string owner = 9; //
+}
+```
+
+
 ##### loan
 
+
+
 抵押借贷模块
+抵押物：链上各种coin，nft
+借贷：目标coin
+到期之前还，取回抵押并支付手续费用，或被清算
+
+```
+message Loan {
+  string borrower = 1; //
+  uint64 status = 2; //
+  uint64 seq = 3; //
+  uint64 term = 4; //
+  uint64 approve_deadline = 5; //
+  uint64 repay_deadline = 6; //
+  uint64 public_liquidation_delay = 7; //
+  string public_liquidation_reward = 8; //coins
+  string amount = 9; //coins
+  string fee = 10; //coins
+  string lender = 11;
+  string collateral_type = 12;
+  string collateral_coin = 13; //coins
+  string collateral_nft_class = 14;
+  string collateral_nft_id = 15;
+}
+```
