@@ -41,7 +41,7 @@ genesis:
         mint_denom: usc
     official:
       operator_map:
-        - {address: spider1gnx609p4e8p3snwm54f204pnncmy99ltm2w3wr}
+        - {address: spider1gnx609p4e8p3snwm54f204pnncmy99ltm2w3wr, module: official}
     tokenfactory:
       params:
         creation_fee:

@@ -12,6 +12,11 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
+const (
+	PermCreate = 0x0001
+	PermDelete = 0x0002
+)
+
 func (k msgServer) CreateOperator(ctx context.Context, msg *types.MsgCreateOperator) (*types.MsgCreateOperatorResponse, error) {
 	if _, err := k.addressCodec.StringToBytes(msg.Creator); err != nil {
 		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidAddress, fmt.Sprintf("invalid address: %s", err))
@@ -22,16 +27,14 @@ func (k msgServer) CreateOperator(ctx context.Context, msg *types.MsgCreateOpera
 	// }
 
 	// check if the creator is manager
-	ok, err := k.Operator.Has(ctx, collections.Join(msg.Creator, ""))
+	_, err := k.GetOperator(ctx, msg.Creator, types.ModuleName) //Has(ctx, collections.Join(msg.Creator, ""))
 	if err != nil {
 		return nil, errorsmod.Wrap(sdkerrors.ErrLogic, err.Error())
-	} else if !ok {
-		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "you must be a manager")
 	}
 
 	// Check if the value already exists
 	var key = collections.Join(msg.Address, msg.Module)
-	ok, err = k.Operator.Has(ctx, key)
+	ok, err := k.Operator.Has(ctx, key)
 	if err != nil {
 		return nil, errorsmod.Wrap(sdkerrors.ErrLogic, err.Error())
 	} else if ok {
@@ -59,11 +62,9 @@ func (k msgServer) UpdateOperator(ctx context.Context, msg *types.MsgUpdateOpera
 		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidAddress, fmt.Sprintf("invalid signer address: %s", err))
 	}
 	// check if the creator is manager
-	ok, err := k.Operator.Has(ctx, collections.Join(msg.Creator, ""))
+	_, err := k.GetOperator(ctx, msg.Creator, types.ModuleName) //Has(ctx, collections.Join(msg.Creator, ""))
 	if err != nil {
 		return nil, errorsmod.Wrap(sdkerrors.ErrLogic, err.Error())
-	} else if !ok {
-		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "you must be a manager")
 	}
 
 	// Check if the value exists
@@ -106,11 +107,9 @@ func (k msgServer) DeleteOperator(ctx context.Context, msg *types.MsgDeleteOpera
 	// check if the creator is manager
 	if msg.Creator != msg.Address {
 		//not self
-		ok, err := k.Operator.Has(ctx, collections.Join(msg.Creator, ""))
+		_, err := k.GetOperator(ctx, msg.Creator, types.ModuleName) //Has(ctx, collections.Join(msg.Creator, ""))
 		if err != nil {
 			return nil, errorsmod.Wrap(sdkerrors.ErrLogic, err.Error())
-		} else if !ok {
-			return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "you must be a manager")
 		}
 	}
 
