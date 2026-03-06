@@ -15,6 +15,7 @@ import (
 const (
 	PermCreate = 0x0001
 	PermDelete = 0x0002
+	RoleSuper  = 0x0100
 )
 
 func (k msgServer) CreateOperator(ctx context.Context, msg *types.MsgCreateOperator) (*types.MsgCreateOperatorResponse, error) {
@@ -27,9 +28,18 @@ func (k msgServer) CreateOperator(ctx context.Context, msg *types.MsgCreateOpera
 	// }
 
 	// check if the creator is manager
-	_, err := k.GetOperator(ctx, msg.Creator, types.ModuleName) //Has(ctx, collections.Join(msg.Creator, ""))
+	opt, err := k.GetOperator(ctx, msg.Creator, types.ModuleName) //Has(ctx, collections.Join(msg.Creator, ""))
 	if err != nil {
 		return nil, errorsmod.Wrap(sdkerrors.ErrLogic, err.Error())
+	}
+	if PermCreate&opt.GetPermissions() == 0 {
+		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "no perm")
+	}
+
+	if msg.Module == types.ModuleName {
+		if opt.GetRole() < RoleSuper {
+			return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "need super role")
+		}
 	}
 
 	// Check if the value already exists
@@ -62,9 +72,14 @@ func (k msgServer) UpdateOperator(ctx context.Context, msg *types.MsgUpdateOpera
 		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidAddress, fmt.Sprintf("invalid signer address: %s", err))
 	}
 	// check if the creator is manager
-	_, err := k.GetOperator(ctx, msg.Creator, types.ModuleName) //Has(ctx, collections.Join(msg.Creator, ""))
+	opt, err := k.GetOperator(ctx, msg.Creator, types.ModuleName) //Has(ctx, collections.Join(msg.Creator, ""))
 	if err != nil {
 		return nil, errorsmod.Wrap(sdkerrors.ErrLogic, err.Error())
+	}
+	if msg.Module == types.ModuleName {
+		if opt.GetRole() < RoleSuper {
+			return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "need super role")
+		}
 	}
 
 	// Check if the value exists
@@ -104,13 +119,17 @@ func (k msgServer) DeleteOperator(ctx context.Context, msg *types.MsgDeleteOpera
 		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidAddress, fmt.Sprintf("invalid signer address: %s", err))
 	}
 
+	var role uint64 = 0
+	var isSuper = false
 	// check if the creator is manager
 	if msg.Creator != msg.Address {
 		//not self
-		_, err := k.GetOperator(ctx, msg.Creator, types.ModuleName) //Has(ctx, collections.Join(msg.Creator, ""))
+		opt, err := k.GetOperator(ctx, msg.Creator, types.ModuleName) //Has(ctx, collections.Join(msg.Creator, ""))
 		if err != nil {
 			return nil, errorsmod.Wrap(sdkerrors.ErrLogic, err.Error())
 		}
+		role = opt.GetRole()
+		isSuper = role >= RoleSuper
 	}
 
 	rng := collections.NewPrefixUntilPairRange[string, string](msg.Address)
@@ -126,9 +145,18 @@ func (k msgServer) DeleteOperator(ctx context.Context, msg *types.MsgDeleteOpera
 			return nil, err
 		}
 
-		if len(key.K2()) < 1 {
-			//cannot remove the manager
-			continue
+		if key.K2() == types.ModuleName {
+			//canot remove official manager
+			if !isSuper {
+				continue
+			}
+			targetOpter, err := itr.Value()
+			if err != nil {
+				return nil, errorsmod.Wrap(sdkerrors.ErrLogic, err.Error())
+			}
+			if role <= targetOpter.Role {
+				continue
+			}
 		}
 
 		if err := k.Operator.Remove(ctx, key); err != nil {
