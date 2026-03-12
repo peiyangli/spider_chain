@@ -103,7 +103,7 @@ func main() {
 	log.Printf("node=%s height=%d", st.NodeInfo.Moniker, st.SyncInfo.LatestBlockHeight)
 
 	// 恢复测试
-	catchUpByHeight(ctx, conn, 18839, st.SyncInfo.LatestBlockHeight)
+	// catchUpByHeight(ctx, conn, 18839, st.SyncInfo.LatestBlockHeight)
 
 	// 订阅所有 Tx；然后在客户端侧过滤自定义事件（最稳）
 	query := "tm.event='Tx'"

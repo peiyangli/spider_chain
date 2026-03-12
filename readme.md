@@ -4,7 +4,7 @@ spider项目的区块链
 
 #### 项目生成与测试
 
-使用工具[ignite](ignite.md)生成，生成步骤与测试可以参考[文档](stepbystep.md)
+使用工具[ignite](documentation/ignite.md)生成，生成步骤与测试可以参考[文档](documentation/stepbystep.md)
 
 #### 模块
 
