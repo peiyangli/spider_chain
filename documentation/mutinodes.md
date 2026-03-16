@@ -234,3 +234,10 @@ spiderd tx bank send sa92 spider1r7l4uhhdfcevk5uafcnhz0k7l8424gmpdm24yt 1000usc 
 spiderd query official list-operator
 ```
 
+在window的wsl中防火墙开启端口访问
+```ps
+New-NetFirewallRule -DisplayName "WSL 26656" -Direction Inbound -Action Allow -Protocol TCP -LocalPort 26656
+```
+
+
+#### 动态添加新的验证者
