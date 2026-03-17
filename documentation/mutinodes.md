@@ -241,3 +241,99 @@ New-NetFirewallRule -DisplayName "WSL 26656" -Direction Inbound -Action Allow -P
 
 
 #### 动态添加新的验证者
+
+确认版本
+spiderd version
+
+新机器上初始化
+spiderd init sa85 --chain-id spider
+
+
+拷贝并替换genesis.json
+比较hash值
+sha256sum ~/.spider/config/genesis.json
+
+
+
+添加节点，配 persistent_peers（推荐至少互相连到 1-2 个稳定节点）
+可以获取：
+cat ~/.spider/config/config.toml | grep persistent_peers
+或者
+spiderd tendermint show-node-id
+
+设置气费
+~/.spider/config/app.toml
+
+minimum-gas-prices = "0.00001usc"
+
+
+先启动节点,等待高度同步完成
+spiderd start
+
+
+添加账户
+export MONIKER=sa85
+spiderd keys add $MONIKER --keyring-backend file --keyring-dir $MONIKER
+/*
+- address: spider1u99wt4jh6a2scc4e2u8ck43gun9d4spyqvw924
+  name: sa85
+  pubkey: '{"@type":"/cosmos.crypto.secp256k1.PubKey","key":"AxJ97uZFclcalB4iHD97SdLUXsCIcZLb01Ggho4qZpqi"}'
+  type: local
+
+**Important** write this mnemonic phrase in a safe place.
+It is the only way to recover your account if you ever forget your password.
+
+idle path candy kind urban frame pave ride unit pattern flight tuition sad satisfy crane can purse garden promote squeeze defense slam near rose
+*/
+
+老机器上转账给新用户地址，足够
+spiderd tx bank send sa93 spider1u99wt4jh6a2scc4e2u8ck43gun9d4spyqvw924 20000000usc --chain-id spider --fees 2usc --keyring-backend file --keyring-dir sa93
+spiderd query bank balances spider1u99wt4jh6a2scc4e2u8ck43gun9d4spyqvw924
+
+新机器上发起create-validator交易
+
+查看新机validator
+$ ./spiderd tendermint show-validator
+{"@type":"/cosmos.crypto.ed25519.PubKey","key":"SZBtuYzpd0QxKNoNmR4XZOxdXdbuxJTHsXOoNay+qRA="}
+
+
+//注意sa85_validator位置， from参数等
+spiderd tx staking create-validator sa85_validator.json \
+  --chain-id spider \
+  --from sa85  \
+  --keyring-backend file --keyring-dir sa85\
+  --gas auto --gas-adjustment 1.3 \
+  --fees 200usc \
+  -y
+
+如下命令查看是否成为验证者
+spiderd query staking validators -o json | jq -r '.validators[] | "\(.description.moniker)\t\(.status)\t\(.tokens)"'
+sa93	BOND_STATUS_BONDED	5000000
+sa92	BOND_STATUS_BONDED	5000000
+sa99	BOND_STATUS_BONDED	5000000
+sa85	BOND_STATUS_BONDED	2000000
+
+或者查看余额
+spiderd query bank balances spider1u99wt4jh6a2scc4e2u8ck43gun9d4spyqvw924
+
+
+#### 查看验证者收益与佣金领取
+
+先查看钱包地址
+spiderd keys show sa85 -a --keyring-backend file --keyring-dir sa85
+
+查看验证者地址
+spiderd keys show sa85 --bech val --keyring-backend file --keyring-dir sa85
+
+查看未领取奖励
+spiderd query distribution validator-outstanding-rewards spidervaloper1u99wt4jh6a2scc4e2u8ck43gun9d4spyguhdy5
+
+领取奖励
+spiderd tx distribution withdraw-all-rewards \
+  --from sa85 \
+  --keyring-backend file \
+  --keyring-dir sa85 \
+  --chain-id spider \
+  --gas auto --gas-adjustment 1.3 \
+  --fees 2usc \
+  -y
